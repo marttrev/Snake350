@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 public class SnakePanel extends JPanel {
 
-    private static final int WIDTH = 1024;
-    private static final int HEIGHT = 1024;
+    private static final int WIDTH = 768;
+    private static final int HEIGHT = 768;
     private static final int DIVISION = 32;
     private static final int AREA = ((WIDTH * HEIGHT) / DIVISION);
     // Temporary, will likely be accessed by method later:
@@ -26,17 +26,17 @@ public class SnakePanel extends JPanel {
 
     public void graphic(Graphics graphics) {
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(getFoodXCoord(), getFoodYCoord(), DIVISION, DIVISION);
+        graphics.fillRect(getFoodXCoord()*DIVISION, getFoodYCoord()*DIVISION, DIVISION, DIVISION);
     }
 
     // Temporary, will be found in other class later
     private int getFoodXCoord() {
-        foodXCoord = 768;
+        foodXCoord = 23;
         return foodXCoord;
     }
 
     private int getFoodYCoord() {
-        foodYCoord = 768;
+        foodYCoord = 23;
         return foodYCoord;
     }
 
