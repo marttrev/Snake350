@@ -7,13 +7,10 @@ import java.awt.event.ActionListener;
 
 public class SnakePanel extends JPanel {
 
-    private static final int WIDTH = 768;
-    private static final int HEIGHT = 768;
+    private static final int WIDTH = getGridWidth();
+    private static final int HEIGHT = getGridHeight();
     private static final int DIVISION = 32;
     private static final int AREA = ((WIDTH * HEIGHT) / DIVISION);
-    // Temporary, will likely be accessed by method later:
-    private int foodXCoord;
-    private int foodYCoord;
 
     public SnakePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -29,15 +26,21 @@ public class SnakePanel extends JPanel {
         graphics.fillRect(getFoodXCoord()*DIVISION, getFoodYCoord()*DIVISION, DIVISION, DIVISION);
     }
 
-    // Temporary, will be found in other class later
+    // These private gets are temporary, will be found in other classes later
     private int getFoodXCoord() {
-        foodXCoord = 23;
-        return foodXCoord;
+        return 23;
     }
 
     private int getFoodYCoord() {
-        foodYCoord = 23;
-        return foodYCoord;
+        return 23;
+    }
+
+    private static int getGridWidth() {
+        return 768;
+    }
+
+    private static int getGridHeight() {
+        return 768;
     }
 
 
