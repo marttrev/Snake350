@@ -5,24 +5,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SnakePanel extends JPanel {
+public class SnakePanel extends JPanel implements ActionListener {
 
-    private int gridWidth = getGridWidth();
-    private int gridHeight = getGridHeight();
+    private GameBoard gameBoard;
+    private int gridWidth;
+    private int gridHeight;
     private int pixelDivision = 32;
+    private int tickRate = 100;
+    private Timer timer;
     private boolean active;
-    // The following variables are temporary, will be found in other classes later
-    private SnakeNode head;
-    private SnakeNode second;
-    private SnakeNode tail;
 
     public SnakePanel() {
+        gameBoard = new GameBoard();
+        gridWidth = (gameBoard.getXPixels() + 1) * pixelDivision;
+        gridHeight = (gameBoard.getYPixels() + 1) * pixelDivision;
         setPreferredSize(new Dimension(gridWidth, gridHeight));
-        startGame();
-    }
-
-    public void startGame() {
-
+        active = true;
+        timer = new Timer(tickRate, this);
+        timer.start();
     }
 
     public void paintComponent(Graphics graphics) {
@@ -33,11 +33,10 @@ public class SnakePanel extends JPanel {
     public void graphic(Graphics graphics) {
         // Draw food on screen
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(getFoodXCoord()* pixelDivision, getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
+        graphics.fillRect(gameBoard.getFoodXCoord()* pixelDivision, gameBoard.getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
 
         // Draw snake on screen
-        /* This call is temporary */ generateSnake();
-        SnakeNode snake = getSnakeHead();
+        SnakeNode snake = gameBoard.getHead();
         while (snake != null) {
             graphics.setColor(Color.BLACK);
             graphics.fillRect(snake.getXcoord()* pixelDivision, snake.getYcoord()* pixelDivision, pixelDivision, pixelDivision);
@@ -51,51 +50,7 @@ public class SnakePanel extends JPanel {
         }
     }
 
-    // These private gets are temporary, will be found in other classes later
-    private int getFoodXCoord() {
-        return 23;
-    }
-
-    private int getFoodYCoord() {
-        return 23;
-    }
-
-    private static int getGridWidth() {
-        return 768;
-    }
-
-    private static int getGridHeight() {
-        return 768;
-    }
-
-    private void generateSnake() {
-        head = new SnakeNode(4, 4);
-        second = new SnakeNode(4, 5);
-        tail = new SnakeNode(5, 5);
-
-        head.setNext(second);
-        second.setPrevious(head);
-        second.setNext(tail);
-        tail.setPrevious(second);
-    }
-
-    private SnakeNode getSnakeHead() {
-        return head;
-    }
-
-    private SnakeNode getSnakeTail() {
-        return tail;
-    }
-
-
-
-
-
-    private class Listener implements ActionListener {
-
-        public void actionPerformed(ActionEvent event) {
-
-        }
+    public void actionPerformed (ActionEvent event) {
 
     }
 }
