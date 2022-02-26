@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.Objects;
-
 public class SnakeNode {
 
     private int xcoord;
@@ -37,8 +35,8 @@ public class SnakeNode {
     }
 
     public SnakeNode(SnakeNode original){
-        this.xcoord = original.getXcoord();
-        this.ycoord = original.getYcoord();
+        this.xcoord = original.getXCoord();
+        this.ycoord = original.getYCoord();
         this.direction = original.getDirection();
         this.next = original.getNext();
         this.previous = original.getPrevious();
@@ -46,19 +44,19 @@ public class SnakeNode {
         this.isTail = this.isTail();
     }
 
-    public int getXcoord() {
+    public int getXCoord() {
         return xcoord;
     }
 
-    public void setXcoord(int xcoord) {
+    public void setXCoord(int xcoord) {
         this.xcoord = xcoord;
     }
 
-    public int getYcoord() {
+    public int getYCoord() {
         return ycoord;
     }
 
-    public void setYcoord(int ycoord) {
+    public void setYCoord(int ycoord) {
         this.ycoord = ycoord;
     }
 

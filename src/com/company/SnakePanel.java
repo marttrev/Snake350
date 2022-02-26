@@ -31,26 +31,39 @@ public class SnakePanel extends JPanel implements ActionListener {
     }
 
     public void graphic(Graphics graphics) {
-        // Draw food on screen
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(gameBoard.getFoodXCoord()* pixelDivision, gameBoard.getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
-
-        // Draw snake on screen
-        SnakeNode snake = gameBoard.getHead();
-        while (snake != null) {
+        if (active) {
+            // Draw food on screen
             graphics.setColor(Color.BLACK);
-            graphics.fillRect(snake.getXcoord()* pixelDivision, snake.getYcoord()* pixelDivision, pixelDivision, pixelDivision);
-            snake = snake.getNext();
-        }
+            graphics.fillRect(gameBoard.getFoodXCoord()* pixelDivision, gameBoard.getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
 
-        // Generate gridlines, if desired
-        for (int i = 0; i < gridHeight/pixelDivision; i++) {
-            graphics.drawLine(i * pixelDivision, 0, i * pixelDivision, gridHeight);
-            graphics.drawLine(0, i * pixelDivision, gridWidth, i * pixelDivision);
+            // Draw snake on screen
+            SnakeNode snake = gameBoard.getHead();
+            while (snake != null) {
+                graphics.setColor(Color.BLACK);
+                graphics.fillRect(snake.getXCoord()* pixelDivision, snake.getYCoord()* pixelDivision, pixelDivision, pixelDivision);
+                snake = snake.getNext();
+            }
+
+            // Generate gridlines, if desired
+            for (int i = 0; i < gridHeight/pixelDivision; i++) {
+                graphics.drawLine(i * pixelDivision, 0, i * pixelDivision, gridHeight);
+                graphics.drawLine(0, i * pixelDivision, gridWidth, i * pixelDivision);
+            }
+        } else {
+            lose();
         }
     }
 
-    public void actionPerformed (ActionEvent event) {
+    private void lose() {
+        JOptionPane.showMessageDialog(new JFrame("Game Over"), "Your game is over!");
+    }
 
+    public void actionPerformed (ActionEvent event) {
+        if (active) {
+            gameBoard.moveSnake();
+            //active = gameBoard.isDead();
+            //gameBoard.hasEaten;
+        }
+        repaint();
     }
 }
