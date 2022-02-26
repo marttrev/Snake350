@@ -7,17 +7,22 @@ import java.awt.event.ActionListener;
 
 public class SnakePanel extends JPanel {
 
-    private static final int WIDTH = getGridWidth();
-    private static final int HEIGHT = getGridHeight();
-    private static final int DIVISION = 32;
-    private static final int AREA = ((WIDTH * HEIGHT) / DIVISION);
+    private int gridWidth = getGridWidth();
+    private int gridHeight = getGridHeight();
+    private int pixelDivision = 32;
+    private boolean active;
     // The following variables are temporary, will be found in other classes later
     private SnakeNode head;
     private SnakeNode second;
     private SnakeNode tail;
 
     public SnakePanel() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(gridWidth, gridHeight));
+        startGame();
+    }
+
+    public void startGame() {
+
     }
 
     public void paintComponent(Graphics graphics) {
@@ -28,15 +33,21 @@ public class SnakePanel extends JPanel {
     public void graphic(Graphics graphics) {
         // Draw food on screen
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(getFoodXCoord()*DIVISION, getFoodYCoord()*DIVISION, DIVISION, DIVISION);
+        graphics.fillRect(getFoodXCoord()* pixelDivision, getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
 
         // Draw snake on screen
         /* This call is temporary */ generateSnake();
         SnakeNode snake = getSnakeHead();
         while (snake != null) {
             graphics.setColor(Color.BLACK);
-            graphics.fillRect(snake.getXcoord()*DIVISION, snake.getYcoord()*DIVISION, DIVISION, DIVISION);
+            graphics.fillRect(snake.getXcoord()* pixelDivision, snake.getYcoord()* pixelDivision, pixelDivision, pixelDivision);
             snake = snake.getNext();
+        }
+
+        // Generate gridlines, if desired
+        for (int i = 0; i < gridHeight/pixelDivision; i++) {
+            graphics.drawLine(i * pixelDivision, 0, i * pixelDivision, gridHeight);
+            graphics.drawLine(0, i * pixelDivision, gridWidth, i * pixelDivision);
         }
     }
 
