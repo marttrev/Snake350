@@ -7,17 +7,25 @@ import java.awt.event.ActionListener;
 
 public class SnakePanel extends JPanel {
 
-    private static final int WIDTH = getGridWidth();
-    private static final int HEIGHT = getGridHeight();
-    private static final int DIVISION = 32;
-    private static final int AREA = ((WIDTH * HEIGHT) / DIVISION);
+    private int gridWidth = getGridWidth();
+    private int gridHeight = getGridHeight();
+    private int pixelDivision = 32;
+    private int delay = 500;
+    private boolean active = false;
     // The following variables are temporary, will be found in other classes later
     private SnakeNode head;
     private SnakeNode second;
     private SnakeNode tail;
+    private int foodXCoord;
+    private int foodYCoord;
 
     public SnakePanel() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(gridWidth, gridHeight));
+
+    }
+
+    public void startGame() {
+        newFood();
     }
 
     public void paintComponent(Graphics graphics) {
@@ -28,33 +36,41 @@ public class SnakePanel extends JPanel {
     public void graphic(Graphics graphics) {
         // Draw food on screen
         graphics.setColor(Color.BLACK);
-        graphics.fillRect(getFoodXCoord()*DIVISION, getFoodYCoord()*DIVISION, DIVISION, DIVISION);
+        graphics.fillRect(getFoodXCoord()* pixelDivision, getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
 
         // Draw snake on screen
         /* This call is temporary */ generateSnake();
         SnakeNode snake = getSnakeHead();
         while (snake != null) {
-            graphics.setColor(Color.BLACK);
-            graphics.fillRect(snake.getXcoord()*DIVISION, snake.getYcoord()*DIVISION, DIVISION, DIVISION);
+            if (snake.isHead()) {
+                graphics.setColor(Color.BLUE);
+            } else {
+                graphics.setColor(Color.BLACK);
+            }
+            graphics.fillRect(snake.getXcoord()* pixelDivision, snake.getYcoord()* pixelDivision, pixelDivision, pixelDivision);
             snake = snake.getNext();
         }
     }
 
-    // These private gets are temporary, will be found in other classes later
+    // These private, one-line methods are temporary, will be found in other classes later
     private int getFoodXCoord() {
-        return 23;
+        return foodXCoord;
     }
 
     private int getFoodYCoord() {
-        return 23;
+        return foodYCoord;
     }
 
-    private static int getGridWidth() {
+    private int getGridWidth() {
         return 768;
     }
 
-    private static int getGridHeight() {
+    private int getGridHeight() {
         return 768;
+    }
+
+    private int newFood() {
+        return 0;
     }
 
     private void generateSnake() {
@@ -83,7 +99,7 @@ public class SnakePanel extends JPanel {
     private class Listener implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
-
+            repaint();
         }
 
     }
