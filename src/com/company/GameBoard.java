@@ -81,6 +81,7 @@ public class GameBoard {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
             tail.setTail(false);
             tail.setNext(new SnakeNode(tailX, tailY, false));
+            tail.getNext().setPrevious(tail);
             tail = tail.getNext();
 
             generateFood();
