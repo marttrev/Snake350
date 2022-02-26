@@ -56,7 +56,10 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     private void lose() {
         timer.stop();
-        JOptionPane.showMessageDialog(new JFrame("Game Over"), "Your game is over!");
+        JFrame frame = new JFrame("Game Over");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JOptionPane.showMessageDialog(frame, "Your game is over!");
+        System.exit(0);
     }
 
     public void actionPerformed (ActionEvent event) {
