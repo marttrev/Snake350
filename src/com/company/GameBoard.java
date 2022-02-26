@@ -27,6 +27,7 @@ public class GameBoard {
     public void moveSnake() {
         SnakeNode snake = getTail();
 
+        // Move the body of the snake
         while (!snake.isHead()) {
             snake.setXCoord(snake.getPrevious().getXCoord());
             snake.setYCoord(snake.getPrevious().getYCoord());
@@ -44,6 +45,31 @@ public class GameBoard {
         } else {
             snake.setXCoord(snake.getXCoord() - 1);
         }
+    }
+
+    public boolean isDead() {
+        // Check horizontal
+        if (head.getXCoord() < 0 || head.getXCoord() > XPixels) {
+            return true;
+        }
+
+        // Check vertical
+        if (head.getYCoord() < 0 || head.getYCoord() > YPixels) {
+            return true;
+        }
+
+        // Check self
+        int headX = head.getXCoord();
+        int headY = head.getYCoord();
+        SnakeNode snake = getHead().getNext();
+
+        while (snake != null) {
+            if (snake.getXCoord() == headX && snake.getYCoord() == headY) {
+                return true;
+            }
+            snake = snake.getNext();
+        }
+        return false;
     }
 
     public int getFoodXCoord() {
