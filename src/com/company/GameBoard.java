@@ -10,11 +10,9 @@ public class GameBoard {
     private int YPixels = 23;
 
     public GameBoard() {
-        head = new SnakeNode(2, 0);
-        head.setHead(true);
+        head = new SnakeNode(2, 0, true);
         head.setNext(new SnakeNode(1, 0));
-        tail = new SnakeNode(0, 0);
-        tail.setTail(true);
+        tail = new SnakeNode(0, 0, false);
         head.getNext().setNext(tail);
         head.getNext().setPrevious(head);
         tail.setPrevious(head.getNext());
@@ -26,6 +24,10 @@ public class GameBoard {
 
     public void moveSnake() {
         SnakeNode snake = getTail();
+
+        // Used for appending to snake if necessary
+        int tailX = snake.getXCoord();
+        int tailY = snake.getYCoord();
 
         // Move the body of the snake
         while (!snake.isHead()) {
@@ -45,6 +47,9 @@ public class GameBoard {
         } else {
             snake.setXCoord(snake.getXCoord() - 1);
         }
+
+        // Append if necessary
+        checkEaten(tailX, tailY);
     }
 
     public boolean isDead() {
@@ -70,6 +75,16 @@ public class GameBoard {
             snake = snake.getNext();
         }
         return false;
+    }
+
+    private void checkEaten(int tailX, int tailY) {
+        if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
+            tail.setTail(false);
+            tail.setNext(new SnakeNode(tailX, tailY, false));
+            tail = tail.getNext();
+
+            generateFood();
+        }
     }
 
     public int getFoodXCoord() {
