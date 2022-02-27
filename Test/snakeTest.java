@@ -1,6 +1,7 @@
 import com.company.GameBoard;
 import com.company.SnakeFrame;
 import com.company.SnakePanel;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class snakeTest {
@@ -30,6 +31,19 @@ public class snakeTest {
 
     }
 
+    @Test
+    public void testHasWon() {
+        GameBoard board = new GameBoard(true);
+        board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord());
+        Assert.assertTrue(board.hasWon());
+    }
+
+    @Test
+    public void testIsDead() {
+        GameBoard board = new GameBoard(true);
+        board.moveSnake();
+        Assert.assertTrue(board.isDead());
+    }
 }
 
 
