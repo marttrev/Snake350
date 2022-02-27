@@ -5,6 +5,7 @@ public class GameBoard {
     private int foodYCoord;
     private SnakeNode head;
     private SnakeNode tail;
+    private int snakeLength;
     /* In a later release, these will vary based on user input. */
     private int XPixels = 23;
     private int YPixels = 23;
@@ -17,9 +18,9 @@ public class GameBoard {
         head.getNext().setPrevious(head);
         tail.setPrevious(head.getNext());
         head.setDirection(1);
+        snakeLength = 3;
 
-        foodXCoord = 4;
-        foodYCoord = 4;
+        generateFood();
     }
 
     public void moveSnake() {
@@ -77,12 +78,21 @@ public class GameBoard {
         return false;
     }
 
+    public boolean hasWon() {
+        if (snakeLength == (XPixels + 1) * (YPixels + 1)) {
+            return true;
+        }
+
+        return false;
+    }
+
     private void checkEaten(int tailX, int tailY) {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
             tail.setTail(false);
             tail.setNext(new SnakeNode(tailX, tailY, false));
             tail.getNext().setPrevious(tail);
             tail = tail.getNext();
+            snakeLength++;
 
             generateFood();
         }

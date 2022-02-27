@@ -61,14 +61,15 @@ public class SnakePanel extends JPanel implements ActionListener {
     public void graphic(Graphics graphics) {
         if (active) {
             // Draw food on screen
-            graphics.setColor(Color.BLACK);
+            graphics.setColor(Color.orange);
             graphics.fillRect(gameBoard.getFoodXCoord()* pixelDivision, gameBoard.getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
 
             // Draw snake on screen
             SnakeNode snake = gameBoard.getHead();
+            graphics.setColor(Color.BLUE);
             while (snake != null) {
-                graphics.setColor(Color.BLACK);
                 graphics.fillRect(snake.getXCoord()* pixelDivision, snake.getYCoord()* pixelDivision, pixelDivision, pixelDivision);
+                graphics.setColor(Color.BLACK);
                 snake = snake.getNext();
             }
 
@@ -90,10 +91,21 @@ public class SnakePanel extends JPanel implements ActionListener {
         System.exit(0);
     }
 
+    private void win() {
+        timer.stop();
+        JFrame frame = new JFrame("Congratulations!");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JOptionPane.showMessageDialog(frame, "Congratulations! You have won!");
+        System.exit(0);
+    }
+
     public void actionPerformed (ActionEvent event) {
         if (active) {
             gameBoard.moveSnake();
             active = !gameBoard.isDead();
+            if (gameBoard.hasWon()) {
+                win();
+            }
         }
         repaint();
     }

@@ -1,8 +1,9 @@
 import com.company.GameBoard;
+import com.company.SnakeFrame;
 import com.company.SnakePanel;
 import org.junit.Test;
 
-public class snakeTest{
+public class snakeTest {
     @Test
     public void testgetFoodXCoord(){
         SnakePanel foodX = new SnakePanel();
@@ -11,8 +12,6 @@ public class snakeTest{
     @Test
     public void testmove(){
         GameBoard moveSnake = new GameBoard();
-
-
     }
 
     @Test
@@ -30,7 +29,8 @@ public class snakeTest{
         //assertBoolean(dead.isDead(),true);
 
     }
-    }
+
+}
 
 
 
