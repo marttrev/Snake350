@@ -23,6 +23,29 @@ public class GameBoard {
         generateFood();
     }
 
+    // Constructor exclusively for testing.
+    public GameBoard(boolean testMode) {
+        XPixels = 3;
+        YPixels = 0;
+
+        head = new SnakeNode(3, 0, true);
+        head.setNext(new SnakeNode(2, 0));
+        tail = new SnakeNode(1, 0, false);
+        head.getNext().setNext(tail);
+        head.getNext().setPrevious(head);
+        tail.setPrevious(head.getNext());
+        head.setDirection(1);
+        snakeLength = 3;
+
+        if (testMode) {
+            foodXCoord = 3;
+            foodYCoord = 0;
+        } else {
+            foodXCoord = 0;
+            foodYCoord = 0;
+        }
+    }
+
     public void moveSnake() {
         SnakeNode snake = getTail();
 
@@ -86,7 +109,7 @@ public class GameBoard {
         return false;
     }
 
-    private void checkEaten(int tailX, int tailY) {
+    public void checkEaten(int tailX, int tailY) {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
             tail.setTail(false);
             tail.setNext(new SnakeNode(tailX, tailY, false));
@@ -132,4 +155,5 @@ public class GameBoard {
             foodXCoord = (foodXCoord + 1) % XPixels;
         }
     }
+
 }
