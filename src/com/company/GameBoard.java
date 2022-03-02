@@ -1,16 +1,40 @@
 package com.company;
 
+/**
+ * Holds the backend game logic for the Snake game, including
+ * movement and collision checking.
+ *
+ * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+ * @version 1.0
+ */
 public class GameBoard {
+    /** The current X-Coordinate of the food. */
     private int foodXCoord;
+    /** THe current Y-Coordinate of the food. */
     private int foodYCoord;
+    /** The SnakeNode that contains the head of the snake. */
     private SnakeNode head;
+    /** The SnakeNode that contains the tail of the snake. */
     private SnakeNode tail;
+    /** The current number of SnakeNodes in the snake. */
     private int snakeLength;
-    /* In a later release, these will vary based on user input. */
-    private int XPixels = 23;
-    private int YPixels = 23;
+    /** The number of pixels - 1 in the X direction on the
+     *  playing field. */
+    private int xpixels;
+    /** The number of pixels - 1 in the Y direction on the
+     *  playing field. */
+    private int ypixels;
 
-    public GameBoard() {
+    /**
+     * Constructor. Creates a new GameBoard of the specified dimensions.
+     * @param xpixels One less than the number of pixels in the x direction
+     *                desired for the GameBoard (ex. 0 is one pixel)
+     * @param ypixels One less than the number of pixels in the y direction
+     *                desired for the GameBoard (ex. 0 is one pixel)
+     */
+    public GameBoard(int xpixels, int ypixels) {
+        this.xpixels = xpixels;
+        this.ypixels = ypixels;
         head = new SnakeNode(2, 0, true);
         head.setNext(new SnakeNode(1, 0));
         tail = new SnakeNode(0, 0, false);
@@ -23,29 +47,9 @@ public class GameBoard {
         generateFood();
     }
 
-    // Constructor exclusively for testing.
-    public GameBoard(boolean testMode) {
-        XPixels = 3;
-        YPixels = 0;
-
-        head = new SnakeNode(3, 0, true);
-        head.setNext(new SnakeNode(2, 0));
-        tail = new SnakeNode(1, 0, false);
-        head.getNext().setNext(tail);
-        head.getNext().setPrevious(head);
-        tail.setPrevious(head.getNext());
-        head.setDirection(1);
-        snakeLength = 3;
-
-        if (testMode) {
-            foodXCoord = 3;
-            foodYCoord = 0;
-        } else {
-            foodXCoord = 0;
-            foodYCoord = 0;
-        }
-    }
-
+    /**
+     * Moves each body segment of the snake by one pixel.
+     */
     public void moveSnake() {
         SnakeNode snake = getTail();
 
@@ -76,14 +80,19 @@ public class GameBoard {
         checkEaten(tailX, tailY);
     }
 
+    /**
+     * Checks if the snake moving into its current position has resulted
+     * in its death.
+     * @return true if the snake is dead, false otherwise.
+     */
     public boolean isDead() {
         // Check horizontal
-        if (head.getXCoord() < 0 || head.getXCoord() > XPixels) {
+        if (head.getXCoord() < 0 || head.getXCoord() > xpixels) {
             return true;
         }
 
         // Check vertical
-        if (head.getYCoord() < 0 || head.getYCoord() > YPixels) {
+        if (head.getYCoord() < 0 || head.getYCoord() > ypixels) {
             return true;
         }
 
@@ -101,14 +110,28 @@ public class GameBoard {
         return false;
     }
 
+    /**
+     * Checks if the snake covers the area of the entire board, thus
+     * winning the game.
+     * @return true if the snake is the covering the entire board, false
+     *         otherwise.
+     */
     public boolean hasWon() {
-        if (snakeLength == (XPixels + 1) * (YPixels + 1)) {
+        if (snakeLength == (xpixels + 1) * (ypixels + 1)) {
             return true;
         }
 
         return false;
     }
 
+    /**
+     * Checks if the snake, in its current position, can eat the food in
+     * its current position.
+     * @param tailX The X-Coordinate of the tail of the snake in its current
+     *              position, used to extend the snake should the need arise.
+     * @param tailY The Y-Coordinate of the tail of the snake in its current
+     *              position, used to extend the snake should the need arise.
+     */
     public void checkEaten(int tailX, int tailY) {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
             tail.setTail(false);
@@ -121,38 +144,84 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Accesses the X-Coordinate of the food in its current position.
+     * @return The X-Coordinate of the food in its current position.
+     */
     public int getFoodXCoord() {
         return foodXCoord;
     }
 
+    /**
+     * Accesses the Y-Coordinate of the food in its current position.
+     * @return The Y-Coordinate of the food in its current position.
+     */
     public int getFoodYCoord() {
         return foodYCoord;
     }
 
+    /**
+     * Modifies the X-Coordinate of the food to that of the parameter
+     * foodXCoord.
+     * @param foodXCoord The desired new X-Coordinate for the food.
+     */
+    public void setFoodXCoord(int foodXCoord) {
+        this.foodXCoord = foodXCoord;
+    }
+
+    /**
+     * Modifies the Y-Coordinate of the food to that of the parameter
+     * foodYCoord.
+     * @param foodYCoord The desired new Y-Coordinate for the food.
+     */
+    public void setFoodYCoord(int foodYCoord) {
+        this.foodYCoord = foodYCoord;
+    }
+
+    /**
+     * Accesses the SnakeNode containing the head of the snake.
+     * @return The SnakeNode containing the head of the snake.
+     */
     public SnakeNode getHead() {
         return head;
     }
 
+    /**
+     * Accesses the SnakeNode containing the tail of the snake.
+     * @return The SnakeNode containing the tail of the snake.
+     */
     public SnakeNode getTail() {
         return tail;
     }
 
-    public int getXPixels() {
-        return XPixels;
+    /**
+     * Accesses the number of pixels in the X direction on the GameBoard.
+     * @return The number of pixels in the X direction on the GameBoard - 1.
+     */
+    public int getXpixels() {
+        return xpixels;
     }
 
-    public int getYPixels() {
-        return YPixels;
+    /**
+     * Accesses the number of pixels in the Y direction on the GameBoard.
+     * @return The number of pixels in the Y direction on the GameBoard - 1.
+     */
+    public int getYpixels() {
+        return ypixels;
     }
 
+    /**
+     * Generates a new set of food coordinates to replace the previous food
+     * coordinates.
+     */
     private void generateFood() {
         // Generate coordinates
-        foodXCoord = (int) (Math.random() * XPixels);
-        foodYCoord = (int) (Math.random() * YPixels);
+        foodXCoord = (int) (Math.random() * xpixels);
+        foodYCoord = (int) (Math.random() * ypixels);
 
         // Ensure no collision with snake head
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
-            foodXCoord = (foodXCoord + 1) % XPixels;
+            foodXCoord = (foodXCoord + 1) % xpixels;
         }
     }
 
