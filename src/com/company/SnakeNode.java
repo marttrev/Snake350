@@ -33,14 +33,14 @@ public class SnakeNode {
     /**
      * A constructor that creates a body segment of the snake, and
      * places its position on the playing field.
-     * @param xcoord The X-Coordinate of the body segment on the
+     * @param pXcoord The X-Coordinate of the body segment on the
      *               playing field.
-     * @param ycoord The Y-Coordinate of the body segment on the
+     * @param pYcoord The Y-Coordinate of the body segment on the
      *               playing field.
      */
-    public SnakeNode(int xcoord, int ycoord) {
-        this.xcoord = xcoord;
-        this.ycoord = ycoord;
+    public SnakeNode(final int pXcoord, final int pYcoord) {
+        this.xcoord = pXcoord;
+        this.ycoord = pYcoord;
         this.direction = 0;
         isHead = false;
         isTail = false;
@@ -49,24 +49,24 @@ public class SnakeNode {
     /**
      * A constructor that creates the head or tail segment of the
      * snake, and places its position on the playing field.
-     * @param xcoord The X-Coordinate of the body segment on the
+     * @param pXcoord The X-Coordinate of the body segment on the
      *               playing field.
-     * @param ycoord The Y-Coordinate of the body segment on the
+     * @param pYcoord The Y-Coordinate of the body segment on the
      *               playing field.
-     * @param isHead A boolean value determining whether the
+     * @param pIsHead A boolean value determining whether the
      *               segment is the head of the snake (true) or the
      *               tail of the snake (false).
      */
-    public SnakeNode(int xcoord, int ycoord, boolean isHead){
-        this.xcoord = xcoord;
-        this.ycoord = ycoord;
+    public SnakeNode(final int pXcoord, final int pYcoord,
+                     final boolean pIsHead) {
+        this.xcoord = pXcoord;
+        this.ycoord = pYcoord;
         this.direction = 0;
 
-        if(isHead){
+        if (pIsHead) {
             this.isHead = true;
             isTail = false;
-        }
-        else{
+        } else {
             this.isHead = false;
             isTail = true;
         }
@@ -77,7 +77,7 @@ public class SnakeNode {
      * passed in.
      * @param original The SnakeNode designed to be cloned.
      */
-    public SnakeNode(SnakeNode original){
+    public SnakeNode(final SnakeNode original) {
         this.xcoord = original.getXCoord();
         this.ycoord = original.getYCoord();
         this.direction = original.getDirection();
@@ -100,10 +100,10 @@ public class SnakeNode {
     /**
      * Modifies the X-Coordinate of the body segment contained within
      * the SnakeNode.
-     * @param xcoord The desired new X-Coordinate.
+     * @param pXcoord The desired new X-Coordinate.
      */
-    public void setXCoord(int xcoord) {
-        this.xcoord = xcoord;
+    public void setXCoord(final int pXcoord) {
+        this.xcoord = pXcoord;
     }
 
     /**
@@ -119,10 +119,10 @@ public class SnakeNode {
     /**
      * Modifies the Y-Coordinate of the body segment contained within
      * the SnakeNode.
-     * @param ycoord The desired new Y-Coordinate.
+     * @param pYcoord The desired new Y-Coordinate.
      */
-    public void setYCoord(int ycoord) {
-        this.ycoord = ycoord;
+    public void setYCoord(final int pYcoord) {
+        this.ycoord = pYcoord;
     }
 
     /**
@@ -136,12 +136,12 @@ public class SnakeNode {
 
     /**
      * Replaces the next body segment in the snake, heading toward the
-     * tail, with the parameter next.
-     * @param next The desired next SnakeNode in the snake, heading
+     * tail, with the parameter pNext.
+     * @param pNext The desired next SnakeNode in the snake, heading
      *             toward the tail.
      */
-    public void setNext(SnakeNode next) {
-        this.next = next;
+    public void setNext(final SnakeNode pNext) {
+        this.next = pNext;
     }
 
     /**
@@ -155,12 +155,12 @@ public class SnakeNode {
 
     /**
      * Replaces the previous body segment in the snake, heading toward
-     * the head, with the parameter previous.
-     * @param previous The desired previous SnakeNode in the snake, heading
+     * the head, with the parameter pPrevious.
+     * @param pPrevious The desired previous SnakeNode in the snake, heading
      *                 toward the head.
      */
-    public void setPrevious(SnakeNode previous) {
-        this.previous = previous;
+    public void setPrevious(final SnakeNode pPrevious) {
+        this.previous = pPrevious;
     }
 
     /**
@@ -175,10 +175,10 @@ public class SnakeNode {
     /**
      * Modifies the cardinal direction in which the body segment of the snake
      * contained within the SnakeNode is travelling.
-     * @param direction The new direction of travel held within the SnakeNode.
+     * @param pDirection The new direction of travel held within the SnakeNode.
      */
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void setDirection(final int pDirection) {
+        this.direction = pDirection;
     }
 
     /**
@@ -195,7 +195,7 @@ public class SnakeNode {
      * @param head true if desired to set as head, false if desired to set not
      *             as head.
      */
-    public void setHead(boolean head) {
+    public void setHead(final boolean head) {
         isHead = head;
     }
 
@@ -213,7 +213,7 @@ public class SnakeNode {
      * @param tail true if desired to set as tail, false if desired to set not
      *             as tail.
      */
-    public void setTail(boolean tail) {
+    public void setTail(final boolean tail) {
         isTail = tail;
     }
 

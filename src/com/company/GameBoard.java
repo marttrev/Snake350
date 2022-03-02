@@ -8,6 +8,8 @@ package com.company;
  * @version 1.0
  */
 public class GameBoard {
+    /** The length of the snake to begin the game. */
+    private static final int START_LENGTH = 3;
     /** The current X-Coordinate of the food. */
     private int foodXCoord;
     /** THe current Y-Coordinate of the food. */
@@ -27,14 +29,14 @@ public class GameBoard {
 
     /**
      * Constructor. Creates a new GameBoard of the specified dimensions.
-     * @param xpixels One less than the number of pixels in the x direction
+     * @param pXpixels One less than the number of pixels in the x direction
      *                desired for the GameBoard (ex. 0 is one pixel)
-     * @param ypixels One less than the number of pixels in the y direction
+     * @param pYpixels One less than the number of pixels in the y direction
      *                desired for the GameBoard (ex. 0 is one pixel)
      */
-    public GameBoard(int xpixels, int ypixels) {
-        this.xpixels = xpixels;
-        this.ypixels = ypixels;
+    public GameBoard(final int pXpixels, final int pYpixels) {
+        xpixels = pXpixels;
+        ypixels = pYpixels;
         head = new SnakeNode(2, 0, true);
         head.setNext(new SnakeNode(1, 0));
         tail = new SnakeNode(0, 0, false);
@@ -42,7 +44,7 @@ public class GameBoard {
         head.getNext().setPrevious(head);
         tail.setPrevious(head.getNext());
         head.setDirection(1);
-        snakeLength = 3;
+        snakeLength = START_LENGTH;
 
         generateFood();
     }
@@ -132,7 +134,7 @@ public class GameBoard {
      * @param tailY The Y-Coordinate of the tail of the snake in its current
      *              position, used to extend the snake should the need arise.
      */
-    public void checkEaten(int tailX, int tailY) {
+    public void checkEaten(final int tailX, final int tailY) {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
             tail.setTail(false);
             tail.setNext(new SnakeNode(tailX, tailY, false));
@@ -162,20 +164,20 @@ public class GameBoard {
 
     /**
      * Modifies the X-Coordinate of the food to that of the parameter
-     * foodXCoord.
-     * @param foodXCoord The desired new X-Coordinate for the food.
+     * pFoodXCoord.
+     * @param pFoodXCoord The desired new X-Coordinate for the food.
      */
-    public void setFoodXCoord(int foodXCoord) {
-        this.foodXCoord = foodXCoord;
+    public void setFoodXCoord(final int pFoodXCoord) {
+        this.foodXCoord = pFoodXCoord;
     }
 
     /**
      * Modifies the Y-Coordinate of the food to that of the parameter
-     * foodYCoord.
-     * @param foodYCoord The desired new Y-Coordinate for the food.
+     * pFoodYCoord.
+     * @param pFoodYCoord The desired new Y-Coordinate for the food.
      */
-    public void setFoodYCoord(int foodYCoord) {
-        this.foodYCoord = foodYCoord;
+    public void setFoodYCoord(final int pFoodYCoord) {
+        this.foodYCoord = pFoodYCoord;
     }
 
     /**

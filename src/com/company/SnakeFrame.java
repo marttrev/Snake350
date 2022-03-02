@@ -1,6 +1,6 @@
 package com.company;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 /**
  * Provides a container for the SnakePanel, allowing for a

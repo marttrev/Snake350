@@ -12,7 +12,9 @@ public class Main {
      * The main method executed at runtime.
      * @param args Any arguments given at runtime.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new SnakeFrame();
     }
+
+
 }

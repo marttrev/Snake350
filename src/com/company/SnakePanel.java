@@ -1,8 +1,18 @@
 package com.company;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.Action;
+import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Controls the front-end of the Snake game, including GUI and
@@ -20,11 +30,11 @@ public class SnakePanel extends JPanel implements ActionListener {
     /** The height of the graphical representation of the game. */
     private int gridHeight;
     /** The size, X and Y, of a single pixel on the graphical
-     * representation of the GameBoard. */
-    private int pixelDivision = 32;
+     *  representation of the GameBoard. */
+    private static final int PIXEL_DIVISION = 32;
     /** The time taken by each turn before the game refreshes its
-     * state. */
-    private int tickRate = 100;
+     *  state. */
+    private static final int TICK_RATE = 100;
     /** A timer that refreshes the game state. */
     private Timer timer;
     /** States whether the game is currently running. */
@@ -37,6 +47,18 @@ public class SnakePanel extends JPanel implements ActionListener {
     private Action eastAction;
     /** Receives input for moving the snake west. */
     private Action westAction;
+    /** Represents the north direction. */
+    private static final int NORTH = 0;
+    /** Represents the east direction. */
+    private static final int EAST = 1;
+    /** Represents the south direction. */
+    private static final int SOUTH = 2;
+    /** Represents the west direction. */
+    private static final int WEST = 3;
+    /** Represents the number of pixels - 1 in the X direction. */
+    private static final int X_PIXELS = 23;
+    /** Represents the number of pixels - 1 in the Y direction. */
+    private static final int Y_PIXELS = 23;
 
     /**
      * Constructor. Generates a fixed-sized GameBoard, initializes input
@@ -44,11 +66,11 @@ public class SnakePanel extends JPanel implements ActionListener {
      */
     public SnakePanel() {
         // Create backend instance
-        gameBoard = new GameBoard(23, 23);
+        gameBoard = new GameBoard(X_PIXELS, Y_PIXELS);
 
         // Generate bounds
-        gridWidth = (gameBoard.getXpixels() + 1) * pixelDivision;
-        gridHeight = (gameBoard.getYpixels() + 1) * pixelDivision;
+        gridWidth = (gameBoard.getXpixels() + 1) * PIXEL_DIVISION;
+        gridHeight = (gameBoard.getYpixels() + 1) * PIXEL_DIVISION;
 
         // Setup input
         northAction = new NorthAction();
@@ -73,7 +95,7 @@ public class SnakePanel extends JPanel implements ActionListener {
 
         // Start game
         active = true;
-        timer = new Timer(tickRate, this);
+        timer = new Timer(TICK_RATE, this);
         timer.start();
     }
 
@@ -81,7 +103,7 @@ public class SnakePanel extends JPanel implements ActionListener {
      * Draws the graphics on the screen.
      * @param graphics The graphics desired to be drawn on the screen.
      */
-    public void paintComponent(Graphics graphics) {
+    public void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
         graphic(graphics);
     }
@@ -91,25 +113,31 @@ public class SnakePanel extends JPanel implements ActionListener {
      * of the current state of the game.
      * @param graphics The graphics desired to be modified.
      */
-    public void graphic(Graphics graphics) {
+    public void graphic(final Graphics graphics) {
         if (active) {
             // Draw food on screen
             graphics.setColor(Color.orange);
-            graphics.fillRect(gameBoard.getFoodXCoord()* pixelDivision, gameBoard.getFoodYCoord()* pixelDivision, pixelDivision, pixelDivision);
+            graphics.fillRect(gameBoard.getFoodXCoord() * PIXEL_DIVISION,
+                    gameBoard.getFoodYCoord() * PIXEL_DIVISION, PIXEL_DIVISION,
+                    PIXEL_DIVISION);
 
             // Draw snake on screen
             SnakeNode snake = gameBoard.getHead();
             graphics.setColor(Color.BLUE);
             while (snake != null) {
-                graphics.fillRect(snake.getXCoord()* pixelDivision, snake.getYCoord()* pixelDivision, pixelDivision, pixelDivision);
+                graphics.fillRect(snake.getXCoord() * PIXEL_DIVISION,
+                        snake.getYCoord() * PIXEL_DIVISION, PIXEL_DIVISION,
+                        PIXEL_DIVISION);
                 graphics.setColor(Color.BLACK);
                 snake = snake.getNext();
             }
 
             // Generate gridlines, if desired
-            for (int i = 0; i < gridHeight/pixelDivision; i++) {
-                graphics.drawLine(i * pixelDivision, 0, i * pixelDivision, gridHeight);
-                graphics.drawLine(0, i * pixelDivision, gridWidth, i * pixelDivision);
+            for (int i = 0; i < gridHeight / PIXEL_DIVISION; i++) {
+                graphics.drawLine(i * PIXEL_DIVISION, 0,
+                        i * PIXEL_DIVISION, gridHeight);
+                graphics.drawLine(0, i * PIXEL_DIVISION,
+                        gridWidth, i * PIXEL_DIVISION);
             }
         } else {
             lose();
@@ -145,7 +173,7 @@ public class SnakePanel extends JPanel implements ActionListener {
      * of the game logic and an update of the GUI.
      * @param event A change in the clock state.
      */
-    public void actionPerformed (ActionEvent event) {
+    public void actionPerformed(final ActionEvent event) {
         if (active) {
             gameBoard.moveSnake();
             active = !gameBoard.isDead();
@@ -168,8 +196,8 @@ public class SnakePanel extends JPanel implements ActionListener {
          * direction of the snake north.
          * @param event A press of the desired key on the keyboard.
          */
-        public void actionPerformed(ActionEvent event) {
-            gameBoard.getHead().setDirection(0);
+        public void actionPerformed(final ActionEvent event) {
+            gameBoard.getHead().setDirection(NORTH);
         }
     }
 
@@ -185,8 +213,8 @@ public class SnakePanel extends JPanel implements ActionListener {
          * direction of the snake south.
          * @param event A press of the desired key on the keyboard.
          */
-        public void actionPerformed(ActionEvent event) {
-            gameBoard.getHead().setDirection(2);
+        public void actionPerformed(final ActionEvent event) {
+            gameBoard.getHead().setDirection(SOUTH);
         }
     }
 
@@ -202,8 +230,8 @@ public class SnakePanel extends JPanel implements ActionListener {
          * direction of the snake west.
          * @param event A press of the desired key on the keyboard.
          */
-        public void actionPerformed(ActionEvent event) {
-            gameBoard.getHead().setDirection(3);
+        public void actionPerformed(final ActionEvent event) {
+            gameBoard.getHead().setDirection(WEST);
         }
     }
 
@@ -219,8 +247,8 @@ public class SnakePanel extends JPanel implements ActionListener {
          * direction of the snake east.
          * @param event A press of the desired key on the keyboard.
          */
-        public void actionPerformed(ActionEvent event) {
-            gameBoard.getHead().setDirection(1);
+        public void actionPerformed(final ActionEvent event) {
+            gameBoard.getHead().setDirection(EAST);
         }
     }
 }
