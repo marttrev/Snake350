@@ -197,7 +197,7 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.getHead().setDirection(NORTH);
+            gameBoard.setHeadDirection(NORTH);
         }
     }
 
@@ -214,7 +214,7 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.getHead().setDirection(SOUTH);
+            gameBoard.setHeadDirection(SOUTH);
         }
     }
 
@@ -231,7 +231,7 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.getHead().setDirection(WEST);
+            gameBoard.setHeadDirection(WEST);
         }
     }
 
@@ -248,7 +248,7 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.getHead().setDirection(EAST);
+            gameBoard.setHeadDirection(EAST);
         }
     }
 }

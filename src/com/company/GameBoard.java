@@ -53,11 +53,14 @@ public class GameBoard {
      * Moves each body segment of the snake by one pixel.
      */
     public void moveSnake() {
-        SnakeNode snake = getTail();
-
         // Used for appending to snake if necessary
-        int tailX = snake.getXCoord();
-        int tailY = snake.getYCoord();
+        int tailX = tail.getXCoord();
+        int tailY = tail.getYCoord();
+
+        tail.setXCoord(tail.getPrevious().getXCoord());
+        tail.setYCoord(tail.getPrevious().getYCoord());
+
+        SnakeNode snake = tail.getPrevious();
 
         // Move the body of the snake
         while (!snake.isHead()) {
@@ -185,7 +188,15 @@ public class GameBoard {
      * @return The SnakeNode containing the head of the snake.
      */
     public SnakeNode getHead() {
-        return head;
+        SnakeNode copy = new SnakeNode(head);
+        return copy;
+    }
+
+    /**
+     * Modifies the direction in which the snake is travelling.
+     */
+    public void setHeadDirection(int direction) {
+        head.setDirection(direction);
     }
 
     /**
@@ -193,7 +204,8 @@ public class GameBoard {
      * @return The SnakeNode containing the tail of the snake.
      */
     public SnakeNode getTail() {
-        return tail;
+        SnakeNode copy = new SnakeNode(tail);
+        return copy;
     }
 
     /**
