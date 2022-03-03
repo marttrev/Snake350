@@ -194,8 +194,9 @@ public class GameBoard {
 
     /**
      * Modifies the direction in which the snake is travelling.
+     * @param direction The desired direction of travel for the snake.
      */
-    public void setHeadDirection(int direction) {
+    public void setHeadDirection(final int direction) {
         head.setDirection(direction);
     }
 
