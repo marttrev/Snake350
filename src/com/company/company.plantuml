@@ -1,0 +1,131 @@
+@startuml
+
+title Snake Game Class Diagram\n
+
+      class com.company.GameBoard {
+          {static} - START_LENGTH : int
+          - foodXCoord : int
+          - foodYCoord : int
+          - snakeLength : int
+          - xpixels : int
+          - ypixels : int
+          + GameBoard()
+          + checkEaten()
+          + getFoodXCoord()
+          + getFoodYCoord()
+          + getHead()
+          + getTail()
+          + getXpixels()
+          + getYpixels()
+          + hasWon()
+          + isDead()
+          + moveSnake()
+          + setFoodXCoord()
+          + setFoodYCoord()
+          + setHeadDirection()
+          - generateFood()
+      }
+
+
+      class com.company.Main {
+          {static} + main()
+      }
+
+
+      class com.company.SnakeFrame {
+          + SnakeFrame()
+      }
+
+
+      class com.company.SnakeNode {
+          - direction : int
+          - isHead : boolean
+          - isTail : boolean
+          - xcoord : int
+          - ycoord : int
+          + SnakeNode()
+          + SnakeNode()
+          + SnakeNode()
+          + getDirection()
+          + getNext()
+          + getPrevious()
+          + getXCoord()
+          + getYCoord()
+          + isHead()
+          + isTail()
+          + setDirection()
+          + setHead()
+          + setNext()
+          + setPrevious()
+          + setTail()
+          + setXCoord()
+          + setYCoord()
+      }
+
+
+      class com.company.SnakePanel {
+          {static} - EAST : int
+          {static} - NORTH : int
+          {static} - PIXEL_DIVISION : int
+          {static} - SOUTH : int
+          {static} - TICK_RATE : int
+          {static} - WEST : int
+          {static} - X_PIXELS : int
+          {static} - Y_PIXELS : int
+          - active : boolean
+          - eastAction : Action
+          - gridHeight : int
+          - gridWidth : int
+          - northAction : Action
+          - southAction : Action
+          - timer : Timer
+          - westAction : Action
+          + SnakePanel()
+          + actionPerformed()
+          + graphic()
+          + paintComponent()
+          - lose()
+          - win()
+      }
+
+
+      class com.company.SnakePanel.EastAction {
+          + actionPerformed()
+      }
+
+
+      class com.company.SnakePanel.NorthAction {
+          + actionPerformed()
+      }
+
+
+      class com.company.SnakePanel.SouthAction {
+          + actionPerformed()
+      }
+
+
+      class com.company.SnakePanel.WestAction {
+          + actionPerformed()
+      }
+
+
+  com.company.GameBoard o-- com.company.SnakeNode : head
+  com.company.GameBoard o-- com.company.SnakeNode : tail
+  com.company.SnakeFrame -up-|> javax.swing.JFrame
+  com.company.SnakeNode o-- com.company.SnakeNode : next
+  com.company.SnakeNode o-- com.company.SnakeNode : previous
+  com.company.SnakePanel .up.|> java.awt.event.ActionListener
+  com.company.SnakePanel -up-|> javax.swing.JPanel
+  com.company.SnakePanel o-- com.company.GameBoard : gameBoard
+  com.company.SnakePanel +-down- com.company.SnakePanel.EastAction
+  com.company.SnakePanel +-down- com.company.SnakePanel.NorthAction
+  com.company.SnakePanel +-down- com.company.SnakePanel.SouthAction
+  com.company.SnakePanel +-down- com.company.SnakePanel.WestAction
+  com.company.SnakePanel.EastAction -up-|> javax.swing.AbstractAction
+  com.company.SnakePanel.NorthAction -up-|> javax.swing.AbstractAction
+  com.company.SnakePanel.SouthAction -up-|> javax.swing.AbstractAction
+  com.company.SnakePanel.WestAction -up-|> javax.swing.AbstractAction
+  com.company.SnakeFrame .left.> com.company.SnakePanel
+  com.company.Main .left.> com.company.SnakeFrame
+
+@enduml
