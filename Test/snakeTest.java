@@ -169,6 +169,18 @@ public class snakeTest {
         Assert.assertFalse(board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord()));
     }
 
+    @Test
+    public void testWin() {
+        SnakePanel panel = new SnakePanel();
+        Assert.assertTrue(panel.win());
+    }
+
+    @Test
+    public void testLose() {
+        SnakePanel panel = new SnakePanel();
+        Assert.assertTrue(panel.lose());
+    }
+
 }
 
 

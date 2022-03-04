@@ -110,7 +110,8 @@ public class SnakePanel extends JPanel implements ActionListener {
 
     /**
      * Modifies the graphics on the screen to give a representation
-     * of the current state of the game.
+     * of the current state of the game. Terminates the program
+     * upon a loss.
      * @param graphics The graphics desired to be modified.
      */
     public void graphic(final Graphics graphics) {
@@ -141,36 +142,38 @@ public class SnakePanel extends JPanel implements ActionListener {
             }
         } else {
             lose();
+            System.exit(0);
         }
     }
 
     /**
-     * When the game is lost, produces a message alerting the player
-     * and terminates the program.
+     * When the game is lost, produces a message alerting the player.
+     * @return true upon successful execution.
      */
-    private void lose() {
+    public boolean lose() {
         timer.stop();
         JFrame frame = new JFrame("Game Over");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JOptionPane.showMessageDialog(frame, "Your game is over!");
-        System.exit(0);
+        return true;
     }
 
     /**
-     * When the game is won, produces a message alerting the player
-     * and terminates the program.
+     * When the game is won, produces a message alerting the player.
+     * @return true upon successful execution.
      */
-    private void win() {
+    public boolean win() {
         timer.stop();
         JFrame frame = new JFrame("Congratulations!");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JOptionPane.showMessageDialog(frame, "Congratulations! You have won!");
-        System.exit(0);
+        return true;
     }
 
     /**
      * Ensures that each tick of the clock is synced with both an update
-     * of the game logic and an update of the GUI.
+     * of the game logic and an update of the GUI. Terminates the program
+     * upon a win.
      * @param event A change in the clock state.
      */
     public void actionPerformed(final ActionEvent event) {
@@ -179,6 +182,7 @@ public class SnakePanel extends JPanel implements ActionListener {
             active = !gameBoard.isDead();
             if (gameBoard.hasWon()) {
                 win();
+                System.exit(0);
             }
         }
         repaint();

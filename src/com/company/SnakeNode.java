@@ -190,16 +190,6 @@ public class SnakeNode {
     }
 
     /**
-     * Changes whether the body segment contained within the current SnakeNode
-     * is the head or not.
-     * @param head true if desired to set as head, false if desired to set not
-     *             as head.
-     */
-    public void setHead(final boolean head) {
-        isHead = head;
-    }
-
-    /**
      * Checks if the current SnakeNode contains the tail of the snake.
      * @return true if the current SnakeNode contains the tail, false otherwise.
      */
