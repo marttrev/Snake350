@@ -127,5 +127,17 @@ title Snake Game Class Diagram\n
   com.company.SnakePanel.WestAction -up-|> javax.swing.AbstractAction
   com.company.SnakeFrame .left.> com.company.SnakePanel
   com.company.Main .left.> com.company.SnakeFrame
+  com.company.SnakePanel .up.> java.awt.Dimension
+  com.company.SnakePanel .up.> javax.swing.JFrame
+  com.company.GameBoard .down.> com.company.SnakeNode
+  com.company.SnakeNode ..> com.company.SnakeNode
+  com.company.SnakePanel ..> java.awt.Graphics
+  com.company.SnakePanel .up.> java.awt.event.ActionEvent
+  com.company.SnakePanel.EastAction ..> java.awt.event.ActionEvent
+  com.company.SnakePanel.WestAction ..> java.awt.event.ActionEvent
+  com.company.SnakePanel.NorthAction ..> java.awt.event.ActionEvent
+  com.company.SnakePanel.SouthAction ..> java.awt.event.ActionEvent
+
+
 
 @enduml
