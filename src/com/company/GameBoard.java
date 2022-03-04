@@ -131,13 +131,14 @@ public class GameBoard {
 
     /**
      * Checks if the snake, in its current position, can eat the food in
-     * its current position.
+     * its current position. If so, increases the snakeLength.
      * @param tailX The X-Coordinate of the tail of the snake in its current
      *              position, used to extend the snake should the need arise.
      * @param tailY The Y-Coordinate of the tail of the snake in its current
      *              position, used to extend the snake should the need arise.
+     * @return true if food can be eaten, false otherwise.
      */
-    public void checkEaten(final int tailX, final int tailY) {
+    public boolean checkEaten(final int tailX, final int tailY) {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
             tail.setTail(false);
             tail.setNext(new SnakeNode(tailX, tailY, false));
@@ -146,7 +147,9 @@ public class GameBoard {
             snakeLength++;
 
             generateFood();
+            return true;
         }
+        return false;
     }
 
     /**

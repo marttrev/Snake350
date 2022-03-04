@@ -155,9 +155,20 @@ public class snakeTest {
         GameBoard board = new GameBoard(3, 0);
         board.setFoodXCoord(2);
         board.setFoodYCoord(0);
+        Assert.assertFalse(board.hasWon());
         board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord());
         Assert.assertTrue(board.hasWon());
     }
+
+    @Test
+    public void testCheckEaten() {
+        GameBoard board = new GameBoard(2, 0);
+        board.setFoodXCoord(2);
+        board.setFoodYCoord(0);
+        Assert.assertTrue(board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord()));
+        Assert.assertFalse(board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord()));
+    }
+
 }
 
 
