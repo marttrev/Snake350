@@ -228,16 +228,36 @@ public class GameBoard {
     /**
      * Generates a new set of food coordinates to replace the previous food
      * coordinates.
+     * @return The X-Coordinate of the just generated food.
      */
-    private void generateFood() {
+    public int generateFood() {
         // Generate coordinates
         foodXCoord = (int) (Math.random() * xpixels);
         foodYCoord = (int) (Math.random() * ypixels);
 
-        // Ensure no collision with snake head
-        if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
-            foodXCoord = (foodXCoord + 1) % xpixels;
-        }
+        checkFoodCollision();
+
+        return foodXCoord;
     }
 
+    /**
+     * Checks to see if the current position of the food collides with the head
+     * of the snake. If so, moves the food to another position.
+     * @return true if food was moved, false otherwise.
+     */
+    public boolean checkFoodCollision() {
+        if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
+            foodXCoord = (foodXCoord + 1) % (xpixels + 1);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Accesses the current length of the snake.
+     * @return the current number of SnakeNodes in the snake.
+     */
+    public int getSnakeLength() {
+        return snakeLength;
+    }
 }
