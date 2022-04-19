@@ -101,16 +101,16 @@ public class SnakePanel extends JPanel implements ActionListener {
             yPixels = 7;
         } else if (level == 1) {
             xPixels = 15;
-            yPixels = 15;
+            yPixels = 10;
         } else if (level == 2) {
-            xPixels = 23;
-            yPixels = 23;
+            xPixels = 15;
+            yPixels = 15;
         } else if (level == 3) {
-            xPixels = 31;
-            yPixels = 31;
+            xPixels = 17;
+            yPixels = 17;
         } else {
-            xPixels = 41;
-            yPixels = 31;
+            xPixels = 20;
+            yPixels = 20;
         }
 
         // Create backend instance

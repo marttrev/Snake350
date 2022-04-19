@@ -256,6 +256,8 @@ public class GameBoard {
         return false;
     }
 
+
+
     /**
      * Accesses the current length of the snake.
      * @return the current number of SnakeNodes in the snake.
