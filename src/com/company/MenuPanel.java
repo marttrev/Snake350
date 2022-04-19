@@ -34,14 +34,19 @@ public class MenuPanel extends JPanel implements ActionListener {
         add(new JLabel("Select your level:"));
         add(levelBox);
         add(new JLabel("Select your background color:"));
+        bgColorBox.setSelectedItem("Black");
         add(bgColorBox);
         add(new JLabel("Select your line color:"));
+        lineColorBox.setSelectedItem("White");
         add(lineColorBox);
         add(new JLabel("Select your snake color:"));
+        bodyColorBox.setSelectedItem("White");
         add(bodyColorBox);
         add(new JLabel("Select your snake head color:"));
+        headColorBox.setSelectedItem("Green");
         add(headColorBox);
         add(new JLabel("Select your food color:"));
+        foodColorBox.setSelectedItem("Red");
         add(foodColorBox);
         //add(new JButton("Start"));
     }

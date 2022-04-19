@@ -56,9 +56,9 @@ public class SnakePanel extends JPanel implements ActionListener {
     /** Represents the west direction. */
     private static final int WEST = 3;
     /** Represents the number of pixels - 1 in the X direction. */
-    private static final int X_PIXELS = 23;
+    private static int xPixels = 23;
     /** Represents the number of pixels - 1 in the Y direction. */
-    private static final int Y_PIXELS = 23;
+    private static int yPixels = 23;
     /** Keeps track of current score. */
     private int score = 0;
     /** The color of the background. */
@@ -95,8 +95,26 @@ public class SnakePanel extends JPanel implements ActionListener {
             tickRate = 25;
         }
 
+        // Set board size
+        if (level == 0) {
+            xPixels = 15;
+            yPixels = 7;
+        } else if (level == 1) {
+            xPixels = 15;
+            yPixels = 15;
+        } else if (level == 2) {
+            xPixels = 23;
+            yPixels = 23;
+        } else if (level == 3) {
+            xPixels = 31;
+            yPixels = 31;
+        } else {
+            xPixels = 41;
+            yPixels = 31;
+        }
+
         // Create backend instance
-        gameBoard = new GameBoard(X_PIXELS, Y_PIXELS);
+        gameBoard = new GameBoard(xPixels, yPixels);
 
         // Generate bounds
         gridWidth = (gameBoard.getXpixels() + 1) * PIXEL_DIVISION;
@@ -169,9 +187,12 @@ public class SnakePanel extends JPanel implements ActionListener {
 
             // Generate gridlines, if desired
             graphics.setColor(lColor);
-            for (int i = 0; i < gridHeight / PIXEL_DIVISION; i++) {
+            for (int i = 0; i < gridWidth / PIXEL_DIVISION; i++) {
                 graphics.drawLine(i * PIXEL_DIVISION, 0,
                         i * PIXEL_DIVISION, gridHeight);
+            }
+
+            for (int i = 0; i < gridHeight / PIXEL_DIVISION; i++) {
                 graphics.drawLine(0, i * PIXEL_DIVISION,
                         gridWidth, i * PIXEL_DIVISION);
             }
