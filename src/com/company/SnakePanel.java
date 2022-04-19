@@ -59,6 +59,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     private static final int X_PIXELS = 23;
     /** Represents the number of pixels - 1 in the Y direction. */
     private static final int Y_PIXELS = 23;
+    /** Keeps track of current score. */
+    private int score = 0;
 
     /**
      * Constructor. Generates a fixed-sized GameBoard, initializes input
@@ -154,7 +156,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         timer.stop();
         JFrame frame = new JFrame("Game Over");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JOptionPane.showMessageDialog(frame, "Your game is over!");
+        JOptionPane.showMessageDialog(frame, "Your game is over!\nYour score is " + score + ".");
         return true;
     }
 
@@ -166,7 +168,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         timer.stop();
         JFrame frame = new JFrame("Congratulations!");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JOptionPane.showMessageDialog(frame, "Congratulations! You have won!");
+        JOptionPane.showMessageDialog(frame, "Congratulations! You have won!\nYour score is " + score + ".");
         return true;
     }
 
@@ -178,7 +180,9 @@ public class SnakePanel extends JPanel implements ActionListener {
      */
     public void actionPerformed(final ActionEvent event) {
         if (active) {
-            gameBoard.moveSnake();
+            if (gameBoard.moveSnake()) {
+                score++;
+            }
             active = !gameBoard.isDead();
             if (gameBoard.hasWon()) {
                 win();

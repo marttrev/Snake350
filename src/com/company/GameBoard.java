@@ -52,7 +52,7 @@ public class GameBoard {
     /**
      * Moves each body segment of the snake by one pixel.
      */
-    public void moveSnake() {
+    public boolean moveSnake() {
         // Used for appending to snake if necessary
         int tailX = tail.getXCoord();
         int tailY = tail.getYCoord();
@@ -82,7 +82,7 @@ public class GameBoard {
         }
 
         // Append if necessary
-        checkEaten(tailX, tailY);
+        return checkEaten(tailX, tailY);
     }
 
     /**
