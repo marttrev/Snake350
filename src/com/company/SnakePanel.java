@@ -34,7 +34,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     private static final int PIXEL_DIVISION = 32;
     /** The time taken by each turn before the game refreshes its
      *  state. */
-    private static final int TICK_RATE = 100;
+    private static int tickRate;
     /** A timer that refreshes the game state. */
     private Timer timer;
     /** States whether the game is currently running. */
@@ -84,6 +84,17 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.fColor = fColor;
         this.bgColor = bgColor;
 
+        // Set speed
+        if (diff == 0) {
+            tickRate = 200;
+        } else if (diff == 1) {
+            tickRate = 100;
+        } else if (diff == 2) {
+            tickRate = 50;
+        } else {
+            tickRate = 25;
+        }
+
         // Create backend instance
         gameBoard = new GameBoard(X_PIXELS, Y_PIXELS);
 
@@ -114,7 +125,7 @@ public class SnakePanel extends JPanel implements ActionListener {
 
         // Start game
         active = true;
-        timer = new Timer(TICK_RATE, this);
+        timer = new Timer(tickRate, this);
         timer.start();
     }
 
