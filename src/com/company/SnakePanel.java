@@ -61,12 +61,29 @@ public class SnakePanel extends JPanel implements ActionListener {
     private static final int Y_PIXELS = 23;
     /** Keeps track of current score. */
     private int score = 0;
+    /** The color of the background. */
+    private Color lColor;
+    /** The color of the snake body. */
+    private Color sColor;
+    /** The color of the snake head. */
+    private Color sHeadColor;
+    /** The color of the food. */
+    private Color fColor;
+    /** The color of the background. */
+    private Color bgColor;
 
     /**
      * Constructor. Generates a fixed-sized GameBoard, initializes input
      * interface, and begins the game.
      */
-    public SnakePanel() {
+    public SnakePanel(int diff, int level, Color lColor, Color sColor, Color sHeadColor, Color fColor, Color bgColor) {
+        // Set colors
+        this.lColor = lColor;
+        this.sColor = sColor;
+        this.sHeadColor = sHeadColor;
+        this.fColor = fColor;
+        this.bgColor = bgColor;
+
         // Create backend instance
         gameBoard = new GameBoard(X_PIXELS, Y_PIXELS);
 
@@ -118,24 +135,29 @@ public class SnakePanel extends JPanel implements ActionListener {
      */
     public void graphic(final Graphics graphics) {
         if (active) {
+            // Draw background color
+            graphics.setColor(bgColor);
+            graphics.fillRect(0, 0, gridWidth, gridHeight);
+
             // Draw food on screen
-            graphics.setColor(Color.orange);
+            graphics.setColor(fColor);
             graphics.fillRect(gameBoard.getFoodXCoord() * PIXEL_DIVISION,
                     gameBoard.getFoodYCoord() * PIXEL_DIVISION, PIXEL_DIVISION,
                     PIXEL_DIVISION);
 
             // Draw snake on screen
             SnakeNode snake = gameBoard.getHead();
-            graphics.setColor(Color.BLUE);
+            graphics.setColor(sHeadColor);
             while (snake != null) {
                 graphics.fillRect(snake.getXCoord() * PIXEL_DIVISION,
                         snake.getYCoord() * PIXEL_DIVISION, PIXEL_DIVISION,
                         PIXEL_DIVISION);
-                graphics.setColor(Color.BLACK);
+                graphics.setColor(sColor);
                 snake = snake.getNext();
             }
 
             // Generate gridlines, if desired
+            graphics.setColor(lColor);
             for (int i = 0; i < gridHeight / PIXEL_DIVISION; i++) {
                 graphics.drawLine(i * PIXEL_DIVISION, 0,
                         i * PIXEL_DIVISION, gridHeight);

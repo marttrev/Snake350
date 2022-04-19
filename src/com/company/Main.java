@@ -1,5 +1,7 @@
 package com.company;
 
+import javax.swing.*;
+
 /**
  * The main method which runs the Snake game.
  *
@@ -13,8 +15,10 @@ public class Main {
      * @param args Any arguments given at runtime.
      */
     public static void main(final String[] args) {
-        new SnakeFrame();
+        new MenuFrame();
     }
+
+    private Main() {}
 
 
 }

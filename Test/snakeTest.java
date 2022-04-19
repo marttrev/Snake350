@@ -171,13 +171,13 @@ public class snakeTest {
 
     @Test
     public void testWin() {
-        SnakePanel panel = new SnakePanel();
+        SnakePanel panel = new SnakePanel(1, 1, null, null, null, null, null);
         Assert.assertTrue(panel.win());
     }
 
     @Test
     public void testLose() {
-        SnakePanel panel = new SnakePanel();
+        SnakePanel panel = new SnakePanel(1, 1, null, null, null, null, null);
         Assert.assertTrue(panel.lose());
     }
 
