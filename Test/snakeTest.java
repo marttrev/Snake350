@@ -1,10 +1,24 @@
 import com.company.GameBoard;
+import com.company.SaveHandler;
 import com.company.SnakeFrame;
 import com.company.SnakePanel;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class snakeTest {
+
+    @Before
+    public void resetSaves() {
+        SaveHandler.writeNewHighScores();
+    }
+
+
     @Test
     public void testConstructor() {
         GameBoard board = new GameBoard(2, 2);
@@ -173,12 +187,48 @@ public class snakeTest {
     public void testWin() {
         SnakePanel panel = new SnakePanel(1, 1, null, null, null, null, null);
         Assert.assertTrue(panel.win());
+        File f = new File("highscores");
+        Assert.assertTrue(f.exists());
+    }
+
+    @Test
+    public void testSaveHandler() {
+        // Load without file existing (remember to delete highscores)
+        SaveHandler.loadHighScores();
+        File f = new File("highscores");
+        Assert.assertTrue(f.exists());
+        // Load
+        Assert.assertEquals(new String[]{"0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---"}, SaveHandler.loadHighScores());
+        // Save above
+        SaveHandler.writeHighScore("420,TEST");
+        Assert.assertEquals(new String[]{"420,TEST", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---"}, SaveHandler.loadHighScores());
+        //Save below
+        SaveHandler.writeHighScore("69,TEST");
+        Assert.assertEquals(new String[]{"420,TEST", "69,TEST", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---"}, SaveHandler.loadHighScores());
+        //Save at bottom
+        SaveHandler.writeHighScore("1,TEST");
+        Assert.assertEquals(new String[]{"420,TEST", "69,TEST", "1,TEST", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---", "0,---"}, SaveHandler.loadHighScores());
+    }
+
+    @Test
+    public void testFormatScores() {
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i < 10; i++) {
+            list.add("0,---");
+        }
+        list = SaveHandler.formatScores(list);
+        Assert.assertEquals("High Scores:\n", list.get(0));
+        for (int i = 1; i < 11; i++) {
+            Assert.assertEquals("0  -  ---\n", list.get(i));
+        }
     }
 
     @Test
     public void testLose() {
         SnakePanel panel = new SnakePanel(1, 1, null, null, null, null, null);
         Assert.assertTrue(panel.lose());
+        File f = new File("highscores");
+        Assert.assertTrue(f.exists());
     }
 
 }
