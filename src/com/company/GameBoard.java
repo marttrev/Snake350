@@ -5,7 +5,7 @@ package com.company;
  * movement and collision checking.
  *
  * @author Lucas Champoux, Trevor Martin, Raunak Shahi
- * @version 1.0
+ * @version 2.0
  */
 public final class GameBoard {
     /** The length of the snake to begin the game. */

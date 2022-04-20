@@ -16,41 +16,82 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A front-end configuration tool for the Snake game, giving GUI
+ * controls for difficulty, level select, colors, and a way to
+ * view high scores.
+ *
+ * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+ * @version 1.0
+ */
 public final class MenuPanel extends JPanel implements ActionListener {
+    /**
+     * A Dimension to be used in conjunction with the
+     * Box.createRigidArea method. This is the larger of
+     * the two.
+     */
     private static final Dimension LARGE_DIMENSION =
             new Dimension(0, 20);
+    /**
+     * A Dimension to be used in conjunction with the
+     * Box.createRigidArea method. This is the smaller of
+     * the two.
+     */
     private static final Dimension SMALL_DIMENSION =
             new Dimension(0, 10);
+    /** An array containing the names of the difficulties. */
     private final String[] difficulty = {"Easy", "Medium", "Hard", "Expert"};
+    /** An array containing the names of the levels. */
     private final String[] levels = {"Tiny", "Small", "Medium",
             "Large", "Giant"};
+    /** An array containing the names of the colors. */
     private final String[] colors = {"Red", "Orange", "Yellow",
             "Green", "Blue", "Purple", "Black", "White"};
-    private boolean startGame = false;
+    /** A drop-down containing the difficulties. */
     private final JComboBox<String> diffBox = new JComboBox<String>(difficulty);
+    /** A drop-down containing the level names. */
     private final JComboBox<String> levelBox = new JComboBox<String>(levels);
+    /** A drop-down containing the colors for the gridlines. */
     private final JComboBox<String> lineColorBox =
             new JComboBox<String>(colors);
+    /** A drop-down containing the colors for the snake body. */
     private final JComboBox<String> bodyColorBox =
             new JComboBox<String>(colors);
+    /** A drop-down containing the colors for the snake head. */
     private final JComboBox<String> headColorBox =
             new JComboBox<String>(colors);
+    /** A drop-down containing the colors for the food. */
     private final JComboBox<String> foodColorBox =
             new JComboBox<String>(colors);
+    /** A drop-down containing the colors for the background. */
     private final JComboBox<String> bgColorBox =
             new JComboBox<String>(colors);
+    /** A button to start the game. */
     private final JButton start = new JButton("Start");
+    /** A button to view the high scores. */
     private final JButton hScores = new JButton("High Scores");
 
+    /**
+     * Constructor. Applies a layout to the panel, adds all the elements,
+     * spaces the elements out, and prepares the buttons to respond to
+     * actions.
+     */
     public MenuPanel() {
+        // Apply layout
         BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         this.setLayout(layout);
 
+        // Prep buttons
         start.addActionListener(this);
         hScores.addActionListener(this);
 
+        // Add items
         add(new JLabel("Select desired options, then "
                 + "click Start to begin the game.            "));
+        /* Each of these is for spacing. This one is larger
+         * than the rest so as to keep the title more separate
+         * from the other options.
+         */
         add(Box.createRigidArea(LARGE_DIMENSION));
         add(new JLabel("Select your difficulty:"));
         add(diffBox);
@@ -82,9 +123,14 @@ public final class MenuPanel extends JPanel implements ActionListener {
         add(hScores);
     }
 
+    /**
+     * Responds to presses of the two buttons in the panel.
+     * @param event The ActionEvent sent by the button that has
+     *              been clicked.
+     */
     @Override
-    /* Can't get this working, using keystroke workaround for now. */
     public void actionPerformed(final ActionEvent event) {
+        // When the start button is clicked.
         if (event.getSource().equals(start)) {
             int diff;
             int level;
@@ -94,6 +140,7 @@ public final class MenuPanel extends JPanel implements ActionListener {
             Color fColor;
             Color bgColor;
 
+            // Read in selected values from the drop-downs
             diff = diffBox.getSelectedIndex();
             level = levelBox.getSelectedIndex();
             lColor = colorDeterminer(
@@ -107,9 +154,11 @@ public final class MenuPanel extends JPanel implements ActionListener {
             bgColor = colorDeterminer(
                     (String) bgColorBox.getSelectedItem());
 
+            // Feed those values into the SnakeFrame constructor.
             new SnakeFrame(diff, level, lColor, sColor,
                     sHeadColor, fColor, bgColor);
         }
+        // When the high scores button is clicked.
         if (event.getSource().equals(hScores)) {
             // Load scores
             java.util.List<String> scoresList = new ArrayList<String>(
@@ -121,12 +170,20 @@ public final class MenuPanel extends JPanel implements ActionListener {
             for (String s : scoresList) {
                 hsOutput += s;
             }
+            // Output scores
             JOptionPane.showMessageDialog(
                     (JFrame) SwingUtilities.getWindowAncestor(
                             this), hsOutput);
         }
-        }
+    }
 
+    /**
+     * A helper method for the actionPerformed method, allowing for
+     * easy translation from strings in the drop-downs to actual
+     * Color values.
+     * @param color The string indicating the desired color.
+     * @return The actual Color value corresponding to the input.
+     */
     private Color colorDeterminer(final String color) {
         if (color == null) {
             return Color.BLACK;

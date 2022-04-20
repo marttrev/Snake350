@@ -13,19 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Manages all interactions with save data for the Snake game.
+ *
+ * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+ * @version 1.0
+ */
 public final class SaveHandler {
+    /** The number of high scores to be saved. */
     public static final int LIST_SIZE = 10;
+    /** The file to read and write high scores from. */
+    public static final File FILE = new File("highscores");
+    /** Default constructor. Do not instantiate this class. */
     private SaveHandler() {
     }
 
+    /**
+     * Reads the high scores from FILE, then builds a String[]
+     * representation of them.
+     * @return an array containing the contents of FILE, each
+     *         element in the format "SCORE,NAME". If FILE
+     *         cannot be read, returns an array of all 0
+     *         scores.
+     */
     public static String[] loadHighScores() {
         try {
-            File f = new File("highscores");
             String[] scores = new String[LIST_SIZE];
-            if (!f.exists()) {
+            if (!FILE.exists()) {
                 writeNewHighScores();
             }
-            Scanner fileReader = new Scanner(new File("highscores"), "UTF-8");
+            Scanner fileReader = new Scanner(FILE, "UTF-8");
             fileReader.nextLine();
             for (int i = 0; i < LIST_SIZE; i++) {
                 if (fileReader.hasNextLine()) {
@@ -42,13 +59,18 @@ public final class SaveHandler {
         }
     }
 
+    /**
+     * Writes a default set of high scores to initialize the
+     * file FILE.
+     * @return true if successful, false otherwise.
+     */
     public static boolean writeNewHighScores() {
         Writer fstream = null;
         BufferedWriter out = null;
         try {
             fstream = new OutputStreamWriter(
                     new FileOutputStream(
-                            "highscores", false),
+                            FILE, false),
                     StandardCharsets.UTF_8);
             out = new BufferedWriter(fstream);
 
@@ -64,18 +86,23 @@ public final class SaveHandler {
         }
     }
 
+    /**
+     * Adds the score passed in to FILE, in the correct position on the
+     * leaderboard, assuming it is within the top LIST_SIZE scores.
+     * @param newScore The score to be added, formatted as "SCORE,NAME"
+     * @return true if successful, false otherwise.
+     */
     public static boolean writeHighScore(final String newScore) {
         Writer fstream = null;
         BufferedWriter out = null;
-        File f = new File("highscores");
-        if (!f.exists()) {
+        if (!FILE.exists()) {
             writeNewHighScores();
         }
         List<String> scores = new ArrayList<String>(List.of(loadHighScores()));
         try {
             fstream = new OutputStreamWriter(
                     new FileOutputStream(
-                            "highscores", false),
+                            FILE, false),
                     StandardCharsets.UTF_8);
             out = new BufferedWriter(fstream);
 
@@ -103,6 +130,13 @@ public final class SaveHandler {
         }
     }
 
+    /**
+     * Takes a list of scores formatted in storage format and
+     * returns a list of the same scores formatted for output
+     * and view by the user.
+     * @param list the list of scores to be formatted.
+     * @return a list of the same scores formatted for output.
+     */
     public static List<String> formatScores(final List<String> list) {
         List<String> formattedList = new ArrayList<String>();
         formattedList.add("High Scores:\n");

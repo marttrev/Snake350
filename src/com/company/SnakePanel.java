@@ -21,7 +21,7 @@ import java.text.NumberFormat;
  * user controls.
  *
  * @author Lucas Champoux, Trevor Martin, Raunak Shahi
- * @version 1.0
+ * @version 2.0
  */
 public final class SnakePanel extends JPanel implements ActionListener {
 
@@ -366,6 +366,7 @@ public final class SnakePanel extends JPanel implements ActionListener {
      * character's (snake's) face in the north direction.
      *
      * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+     * @version 1.0
      */
     private class NorthAction extends AbstractAction {
         /**
@@ -385,12 +386,14 @@ public final class SnakePanel extends JPanel implements ActionListener {
      * character's (snake's) face in the south direction.
      *
      * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+     * @version 1.0
      */
     private class SouthAction extends AbstractAction {
         /**
          * Receives input from the player, then moves the facing
          * direction of the snake south.
          * @param event A press of the desired key on the keyboard.
+         * @version 1.0
          */
         public void actionPerformed(final ActionEvent event) {
             if (timer.isRunning()) {
@@ -404,6 +407,7 @@ public final class SnakePanel extends JPanel implements ActionListener {
      * character's (snake's) face in the west direction.
      *
      * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+     * @version 1.0
      */
     private class WestAction extends AbstractAction {
         /**
@@ -423,6 +427,7 @@ public final class SnakePanel extends JPanel implements ActionListener {
      * character's (snake's) face in the east direction.
      *
      * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+     * @version 1.0
      */
     private class EastAction extends AbstractAction {
         /**
@@ -437,7 +442,18 @@ public final class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * An action, prompted by user input, that will reset the game
+     * while it is running.
+     *
+     * @author Lucas Champoux, Trevor Martin, Raunak Shahi
+     * @version 1.0
+     */
     private class ResetAction extends AbstractAction {
+        /**
+         * Receives input from the player, then resets the game.
+         * @param event A press of the desired key on the keyboard.
+         */
         public void actionPerformed(final ActionEvent event) {
             // Create new backend instance
             if (timer.isRunning()) {
@@ -447,7 +463,19 @@ public final class SnakePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * An action, prompted by user input, that will pause the game
+     * while it is running and unpause the game while it is not.
+     *
+     * @author Lucas Champoux, Trevor Martinn, Raunak Shahi
+     * @version 1.0
+     */
     private class PauseAction extends AbstractAction {
+        /**
+         * Receives input from the player, then pauses or unpauses
+         * the game.
+         * @param event A press of the desired key on the keyboard.
+         */
         public void actionPerformed(final ActionEvent event) {
             if (timer.isRunning()) {
                 timer.stop();

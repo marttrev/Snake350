@@ -6,7 +6,7 @@ package com.company;
  * game.
  *
  * @author Lucas Champoux, Trevor Martin, Raunak Shahi
- * @version 1.0
+ * @version 2.0
  */
 public final class SnakeNode {
 
@@ -206,6 +206,10 @@ public final class SnakeNode {
         }
     }
 
+    /**
+     * Moves the snake based on the direction it is
+     * facing.
+     */
     public void moveSnake() {
         // Move the body of the snake
         SnakeNode tail = next;
