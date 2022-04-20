@@ -11,9 +11,12 @@ title Snake Game Class Diagram\n
           - ypixels : int
           + GameBoard()
           + checkEaten()
+          + checkFoodCollision()
+          + generateFood()
           + getFoodXCoord()
           + getFoodYCoord()
           + getHead()
+          + getSnakeLength()
           + getTail()
           + getXpixels()
           + getYpixels()
@@ -23,18 +26,66 @@ title Snake Game Class Diagram\n
           + setFoodXCoord()
           + setFoodYCoord()
           + setHeadDirection()
-          - generateFood()
       }
+  
 
 
       class com.company.Main {
           {static} + main()
+          - Main()
       }
+  
+
+
+      class com.company.MenuFrame {
+          + MenuFrame()
+      }
+
+  
+
+
+      class com.company.MenuPanel {
+          {static} - LARGE_DIMENSION : Dimension
+          {static} - SMALL_DIMENSION : Dimension
+          - bgColorBox : JComboBox<String>
+          - bodyColorBox : JComboBox<String>
+          - colors : String[]
+          - diffBox : JComboBox<String>
+          - difficulty : String[]
+          - foodColorBox : JComboBox<String>
+          - hScores : JButton
+          - headColorBox : JComboBox<String>
+          - levelBox : JComboBox<String>
+          - levels : String[]
+          - lineColorBox : JComboBox<String>
+          - start : JButton
+          + MenuPanel()
+          + actionPerformed()
+          - colorDeterminer()
+      }
+
+  
+
+
+      class com.company.SaveHandler {
+          {static} + FILE : File
+          {static} + LIST_SIZE : int
+          {static} + formatScores()
+          {static} + loadHighScores()
+          {static} + writeHighScore()
+          {static} + writeNewHighScores()
+          - SaveHandler()
+      }
+
+  
 
 
       class com.company.SnakeFrame {
           + SnakeFrame()
+          - SnakeFrame()
       }
+
+  
 
 
       class com.company.SnakeNode {
@@ -45,58 +96,106 @@ title Snake Game Class Diagram\n
           - ycoord : int
           + SnakeNode()
           + SnakeNode()
-          + SnakeNode()
+          + addTailNode()
+          {static} + generateStartSnake()
           + getDirection()
           + getNext()
-          + getPrevious()
           + getXCoord()
           + getYCoord()
           + isHead()
-          + isTail()
+          + moveSnake()
           + setDirection()
-          + setHead()
-          + setNext()
-          + setPrevious()
-          + setTail()
-          + setXCoord()
-          + setYCoord()
+          - moveHelper()
       }
+
+  
 
 
       class com.company.SnakePanel {
           {static} - EAST : int
+          {static} - EASY : int
+          {static} - EASY_INCREMENT : int
+          {static} - EASY_SPEED : int
+          {static} - EXPERT : int
+          {static} - EXPERT_INCREMENT : int
+          {static} - EXPERT_SPEED : int
+          {static} - GIANT : int
+          {static} - GIANT_DIMENSIONS : int[]
+          {static} - HARD : int
+          {static} - HARD_INCREMENT : int
+          {static} - HARD_SPEED : int
+          {static} - LARGE : int
+          {static} - LARGE_DIMENSIONS : int[]
+          {static} - LARGE_LEVEL_PIXEL_SIZE : int
+          {static} - MEDIUM : int
+          {static} - MEDIUM_DIMENSIONS : int[]
+          {static} - MEDIUM_INCREMENT : int
+          {static} - MEDIUM_LEVEL : int
+          {static} - MEDIUM_SPEED : int
           {static} - NORTH : int
-          {static} - PIXEL_DIVISION : int
+          {static} - SMALL : int
+          {static} - SMALL_DIMENSIONS : int[]
+          {static} - SMALL_LEVEL_PIXEL_SIZE : int
           {static} - SOUTH : int
-          {static} - TICK_RATE : int
+          {static} - TINY : int
+          {static} - TINY_DIMENSIONS : int[]
           {static} - WEST : int
-          {static} - X_PIXELS : int
-          {static} - Y_PIXELS : int
           - active : boolean
+          - backColor : Color
+          - bodyColor : Color
           - eastAction : Action
+          - foodColor : Color
+          - glColor : Color
           - gridHeight : int
           - gridWidth : int
+          - headColor : Color
           - northAction : Action
+          - pauseAction : Action
+          - pixelDivision : int
+          - resetAction : Action
+          - score : int
+          - scoreIncrement : int
           - southAction : Action
+          - tickRate : int
           - timer : Timer
           - westAction : Action
+          - xPixels : int
+          - yPixels : int
           + SnakePanel()
           + actionPerformed()
           + graphic()
+          + lose()
           + paintComponent()
-          - lose()
-          - win()
+          + win()
       }
+
+  
 
 
       class com.company.SnakePanel.EastAction {
           + actionPerformed()
       }
 
+  
+
 
       class com.company.SnakePanel.NorthAction {
           + actionPerformed()
       }
+
+  
+
+      class com.company.SnakePanel.PauseAction {
+          + actionPerformed()
+      }
+
+  
+
+      class com.company.SnakePanel.ResetAction {
+          + actionPerformed()
+      }
+
+  
 
 
       class com.company.SnakePanel.SouthAction {
@@ -104,40 +203,78 @@ title Snake Game Class Diagram\n
       }
 
 
+
       class com.company.SnakePanel.WestAction {
           + actionPerformed()
       }
 
+  
 
-  com.company.GameBoard o-- com.company.SnakeNode : head
-  com.company.GameBoard o-- com.company.SnakeNode : tail
+  com.company.GameBoard --> com.company.SnakeNode : head
+  com.company.GameBoard --> com.company.SnakeNode : tail
+  com.company.MenuFrame -up-|> javax.swing.JFrame
+  com.company.MenuPanel .up.|> java.awt.event.ActionListener
+  com.company.MenuPanel -up-|> javax.swing.JPanel
   com.company.SnakeFrame -up-|> javax.swing.JFrame
-  com.company.SnakeNode o-- com.company.SnakeNode : next
-  com.company.SnakeNode o-- com.company.SnakeNode : previous
+  com.company.SnakeNode --> com.company.SnakeNode : next
+  com.company.SnakeNode --> com.company.SnakeNode : previous
   com.company.SnakePanel .up.|> java.awt.event.ActionListener
   com.company.SnakePanel -up-|> javax.swing.JPanel
-  com.company.SnakePanel o-- com.company.GameBoard : gameBoard
+  com.company.SnakePanel --> com.company.GameBoard : gameBoard
   com.company.SnakePanel +-down- com.company.SnakePanel.EastAction
   com.company.SnakePanel +-down- com.company.SnakePanel.NorthAction
+  com.company.SnakePanel +-down- com.company.SnakePanel.PauseAction
+  com.company.SnakePanel +-down- com.company.SnakePanel.ResetAction
   com.company.SnakePanel +-down- com.company.SnakePanel.SouthAction
   com.company.SnakePanel +-down- com.company.SnakePanel.WestAction
   com.company.SnakePanel.EastAction -up-|> javax.swing.AbstractAction
   com.company.SnakePanel.NorthAction -up-|> javax.swing.AbstractAction
+  com.company.SnakePanel.PauseAction -up-|> javax.swing.AbstractAction
+  com.company.SnakePanel.ResetAction -up-|> javax.swing.AbstractAction
   com.company.SnakePanel.SouthAction -up-|> javax.swing.AbstractAction
   com.company.SnakePanel.WestAction -up-|> javax.swing.AbstractAction
-  com.company.SnakeFrame .left.> com.company.SnakePanel
-  com.company.Main .left.> com.company.SnakeFrame
-  com.company.SnakePanel .up.> java.awt.Dimension
+
+  com.company.Main .left.> com.company.MenuFrame
+  com.company.MenuFrame .left.> com.company.MenuPanel
+  com.company.MenuPanel .left.> com.company.SnakeFrame
+  com.company.MenuPanel .up.> javax.swing.Box
+  com.company.MenuPanel .up.> javax.swing.BoxLayout
+  com.company.MenuPanel .up.> javax.swing.JOptionPane
+  com.company.MenuPanel .up.> java.awt.Color
+  com.company.MenuPanel .up.> java.awt.event.ActionEvent
+  com.company.SnakeFrame ..> com.company.SnakePanel
   com.company.SnakePanel .up.> javax.swing.JFrame
-  com.company.GameBoard .down.> com.company.SnakeNode
-  com.company.SnakeNode ..> com.company.SnakeNode
-  com.company.SnakePanel ..> java.awt.Graphics
+  com.company.SnakePanel .down.> com.company.SnakeNode
+  com.company.SnakePanel .down.> com.company.SaveHandler
+  com.company.SnakePanel .up.> javax.swing.JOptionPane
+  com.company.SnakePanel .up.> java.awt.Graphics
+  com.company.SnakePanel .up.> javax.swing.SwingUtilities
   com.company.SnakePanel .up.> java.awt.event.ActionEvent
-  com.company.SnakePanel.EastAction ..> java.awt.event.ActionEvent
-  com.company.SnakePanel.WestAction ..> java.awt.event.ActionEvent
-  com.company.SnakePanel.NorthAction ..> java.awt.event.ActionEvent
-  com.company.SnakePanel.SouthAction ..> java.awt.event.ActionEvent
+  com.company.GameBoard ..> com.company.SnakeNode
+  com.company.SnakeNode ..> com.company.SnakeNode
+
+  com.company.MenuPanel -up-> java.awt.Dimension
+  com.company.MenuPanel -up-> javax.swing.JComboBox
+  com.company.MenuPanel -up-> javax.swing.JButton
+  com.company.SnakePanel -up-> javax.swing.Timer
+  com.company.SnakePanel -up-> java.awt.Color
+  com.company.SaveHandler -up-> java.io.File
 
 
+
+
+
+
+
+
+
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
 
 @enduml
