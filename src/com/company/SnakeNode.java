@@ -8,7 +8,7 @@ package com.company;
  * @author Lucas Champoux, Trevor Martin, Raunak Shahi
  * @version 1.0
  */
-public class SnakeNode {
+public final class SnakeNode {
 
     /** The X-Coordinate of the body segment of the snake contained
      * within the current SnakeNode. */
@@ -78,13 +78,13 @@ public class SnakeNode {
      * @param original The SnakeNode designed to be cloned.
      */
     public SnakeNode(final SnakeNode original) {
-        this.xcoord = original.getXCoord();
-        this.ycoord = original.getYCoord();
-        this.direction = original.getDirection();
-        this.next = original.getNext();
-        this.previous = original.getPrevious();
-        this.isHead = original.isHead();
-        this.isTail = original.isTail();
+        this.xcoord = original.xcoord;
+        this.ycoord = original.ycoord;
+        this.direction = original.direction;
+        this.next = original.next;
+        this.previous = original.previous;
+        this.isHead = original.isHead;
+        this.isTail = original.isTail;
     }
 
     /**
@@ -95,15 +95,6 @@ public class SnakeNode {
      */
     public int getXCoord() {
         return xcoord;
-    }
-
-    /**
-     * Modifies the X-Coordinate of the body segment contained within
-     * the SnakeNode.
-     * @param pXcoord The desired new X-Coordinate.
-     */
-    public void setXCoord(final int pXcoord) {
-        this.xcoord = pXcoord;
     }
 
     /**
@@ -131,36 +122,11 @@ public class SnakeNode {
      * @return The next SnakeNode in the snake, heading toward the tail.
      */
     public SnakeNode getNext() {
-        return next;
-    }
-
-    /**
-     * Replaces the next body segment in the snake, heading toward the
-     * tail, with the parameter pNext.
-     * @param pNext The desired next SnakeNode in the snake, heading
-     *             toward the tail.
-     */
-    public void setNext(final SnakeNode pNext) {
-        this.next = pNext;
-    }
-
-    /**
-     * Accesses the previous body segment in the snake, heading toward
-     * the head.
-     * @return The previous SnakeNode in the snake, heading toward the head.
-     */
-    public SnakeNode getPrevious() {
-        return previous;
-    }
-
-    /**
-     * Replaces the previous body segment in the snake, heading toward
-     * the head, with the parameter pPrevious.
-     * @param pPrevious The desired previous SnakeNode in the snake, heading
-     *                 toward the head.
-     */
-    public void setPrevious(final SnakeNode pPrevious) {
-        this.previous = pPrevious;
+        if (next == null) {
+            return null;
+        }
+        SnakeNode copy = new SnakeNode(next);
+        return copy;
     }
 
     /**
@@ -207,4 +173,69 @@ public class SnakeNode {
         isTail = tail;
     }
 
+    /**
+     * Generates a starter snake of three pixels size, built off the top-left
+     * corner coordinate, facing rightward in horizontal orientation.
+     * @return An array containing the head node at index 0, and the tail node
+     *         at index 1, of the newly created snake.
+     */
+    public static SnakeNode[] generateStartSnake() {
+        SnakeNode head = new SnakeNode(2, 0, true);
+        head.next = new SnakeNode(head.xcoord - 1, head.ycoord, false);
+        head.next.isTail = false;
+        SnakeNode tail = new SnakeNode(head.xcoord - 2, head.ycoord, false);
+        head.next.next = tail;
+        head.next.previous = head;
+        tail.previous = head.next;
+        head.direction = 1;
+        return new SnakeNode[]{head, tail};
+    }
+
+    /**
+     * Adds a node to the tail of the current snake, then sets that node as
+     * the tail.
+     */
+    public void addTailNode() {
+        if (isTail) {
+            isTail = false;
+            next = new SnakeNode(xcoord, ycoord, false);
+            next.isTail = true;
+            next.previous = this;
+        } else {
+            next.addTailNode();
+        }
+    }
+
+    public void moveSnake() {
+        // Move the body of the snake
+        SnakeNode tail = next;
+        while (!tail.isTail) {
+            tail = tail.next;
+        }
+        moveHelper(tail);
+
+        // Move the head of the snake
+        if (direction == 0) {
+            ycoord = ycoord - 1;
+        } else if (direction == 1) {
+            xcoord = xcoord + 1;
+        } else if (direction == 2) {
+            ycoord = ycoord + 1;
+        } else {
+            xcoord = xcoord - 1;
+        }
+
+    }
+
+    /** Moves the body of the snake with the given tail.
+     * @param tail The tail of the snake to be moved.
+     */
+    private void moveHelper(final SnakeNode tail) {
+        SnakeNode node = tail;
+        while (!node.isHead) {
+            node.xcoord = node.previous.xcoord;
+            node.ycoord = node.previous.ycoord;
+            node = node.previous;
+        }
+    }
 }

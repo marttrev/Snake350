@@ -1,12 +1,12 @@
 package com.company;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
-public class MenuFrame extends JFrame {
-    private MenuPanel panel = new MenuPanel(this);
-    public MenuFrame () {
+public final class MenuFrame extends JFrame {
+
+    public MenuFrame() {
         setTitle("Menu");
-        add(panel);
+        add(new MenuPanel());
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();

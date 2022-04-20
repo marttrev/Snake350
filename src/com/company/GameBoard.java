@@ -7,7 +7,7 @@ package com.company;
  * @author Lucas Champoux, Trevor Martin, Raunak Shahi
  * @version 1.0
  */
-public class GameBoard {
+public final class GameBoard {
     /** The length of the snake to begin the game. */
     private static final int START_LENGTH = 3;
     /** The current X-Coordinate of the food. */
@@ -37,52 +37,24 @@ public class GameBoard {
     public GameBoard(final int pXpixels, final int pYpixels) {
         xpixels = pXpixels;
         ypixels = pYpixels;
-        head = new SnakeNode(2, 0, true);
-        head.setNext(new SnakeNode(1, 0));
-        tail = new SnakeNode(0, 0, false);
-        head.getNext().setNext(tail);
-        head.getNext().setPrevious(head);
-        tail.setPrevious(head.getNext());
-        head.setDirection(1);
+        SnakeNode[] nodes = SnakeNode.generateStartSnake();
+        head = nodes[0];
+        tail = nodes[1];
         snakeLength = START_LENGTH;
 
         generateFood();
     }
 
     /**
-     * Moves each body segment of the snake by one pixel.
+     * Calls moveSnake on the head node, then calls
+     * checkEaten to extend the snake if necessary.
+     * @return the result of a call to checkEaten after
+     *         the current snake body has been moved.
      */
     public boolean moveSnake() {
-        // Used for appending to snake if necessary
-        int tailX = tail.getXCoord();
-        int tailY = tail.getYCoord();
-
-        tail.setXCoord(tail.getPrevious().getXCoord());
-        tail.setYCoord(tail.getPrevious().getYCoord());
-
-        SnakeNode snake = tail.getPrevious();
-
-        // Move the body of the snake
-        while (!snake.isHead()) {
-            snake.setXCoord(snake.getPrevious().getXCoord());
-            snake.setYCoord(snake.getPrevious().getYCoord());
-            snake = snake.getPrevious();
-        }
-
-        // Move the head of the snake
-        int headDirection = snake.getDirection();
-        if (headDirection == 0) {
-            snake.setYCoord(snake.getYCoord() - 1);
-        } else if (headDirection == 1) {
-            snake.setXCoord(snake.getXCoord() + 1);
-        } else if (headDirection == 2) {
-            snake.setYCoord(snake.getYCoord() + 1);
-        } else {
-            snake.setXCoord(snake.getXCoord() - 1);
-        }
-
+        head.moveSnake();
         // Append if necessary
-        return checkEaten(tailX, tailY);
+        return checkEaten();
     }
 
     /**
@@ -132,18 +104,11 @@ public class GameBoard {
     /**
      * Checks if the snake, in its current position, can eat the food in
      * its current position. If so, increases the snakeLength.
-     * @param tailX The X-Coordinate of the tail of the snake in its current
-     *              position, used to extend the snake should the need arise.
-     * @param tailY The Y-Coordinate of the tail of the snake in its current
-     *              position, used to extend the snake should the need arise.
      * @return true if food can be eaten, false otherwise.
      */
-    public boolean checkEaten(final int tailX, final int tailY) {
+    public boolean checkEaten() {
         if (head.getXCoord() == foodXCoord && head.getYCoord() == foodYCoord) {
-            tail.setTail(false);
-            tail.setNext(new SnakeNode(tailX, tailY, false));
-            tail.getNext().setPrevious(tail);
-            tail = tail.getNext();
+            head.addTailNode();
             snakeLength++;
 
             generateFood();

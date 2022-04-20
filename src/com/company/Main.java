@@ -1,14 +1,12 @@
 package com.company;
 
-import javax.swing.*;
-
 /**
  * The main method which runs the Snake game.
  *
  * @author Lucas Champoux, Trevor Martin, Raunak Shahi
  * @version 1.0
  */
-public class Main {
+public final class Main {
 
     /**
      * The main method executed at runtime.
@@ -18,7 +16,8 @@ public class Main {
         new MenuFrame();
     }
 
-    private Main() {}
+    private Main() {
+    }
 
 
 }
