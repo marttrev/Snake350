@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuPanel extends JPanel implements ActionListener {
     private final String[] difficulty = {"Easy", "Medium", "Hard", "Expert"};
@@ -18,40 +20,51 @@ public class MenuPanel extends JPanel implements ActionListener {
     private final JComboBox<String> foodColorBox = new JComboBox<String>(colors);
     private final JComboBox<String> bgColorBox = new JComboBox<String>(colors);
     private final JButton start = new JButton("Start");
+    private final JButton hScores = new JButton("High Scores");
     private final MenuFrame frame;
 
     public MenuPanel(MenuFrame menuFrame) {
+        BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+        this.setLayout(layout);
+
+        Box box = new Box(0);
 
         frame = menuFrame;
 
-        StartAction startAction = new StartAction();
-
-        this.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "startAction");
-        this.getActionMap().put("startAction", startAction);
+        start.addActionListener(this);
+        hScores.addActionListener(this);
 
         //start.addActionListener(this);
-        add(new JLabel("Select desired options, then press ENTER or RETURN to begin."));
-        add(new JSeparator(SwingConstants.VERTICAL));
+        add(new JLabel("Select desired options, then press ENTER or RETURN to begin.            "));
+        add(Box.createRigidArea(new Dimension(0, 20)));
         add(new JLabel("Select your difficulty:"));
         add(diffBox);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("Select your level:"));
         add(levelBox);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("Select your background color:"));
         bgColorBox.setSelectedItem("Black");
         add(bgColorBox);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("Select your line color:"));
         lineColorBox.setSelectedItem("White");
         add(lineColorBox);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("Select your snake color:"));
         bodyColorBox.setSelectedItem("White");
         add(bodyColorBox);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("Select your snake head color:"));
         headColorBox.setSelectedItem("Green");
         add(headColorBox);
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(new JLabel("Select your food color:"));
         foodColorBox.setSelectedItem("Red");
         add(foodColorBox);
-        //add(new JButton("Start"));
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(start);
+        add(hScores);
     }
 
     public boolean startGame() {
@@ -62,49 +75,57 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     /* Can't get this working, using keystroke workaround for now. */
     public void actionPerformed(final ActionEvent event) {
-        //new SnakeFrame(1, 1, null, null, null, null);
-    }
+        if (event.getSource().equals(start)) {
+            int diff;
+            int level;
+            Color lColor;
+            Color sColor;
+            Color sHeadColor;
+            Color fColor;
+            Color bgColor;
 
-    public class StartAction extends AbstractAction {
-        int diff;
-        int level;
-        Color lColor;
-        Color sColor;
-        Color sHeadColor;
-        Color fColor;
-        Color bgColor;
-
-        public void actionPerformed(final ActionEvent event) {
             diff = diffBox.getSelectedIndex();
             level = levelBox.getSelectedIndex();
             lColor = colorDeterminer((String) lineColorBox.getSelectedItem());
-            sColor = colorDeterminer((String)bodyColorBox.getSelectedItem());
-            sHeadColor = colorDeterminer((String)headColorBox.getSelectedItem());
-            fColor = colorDeterminer((String)foodColorBox.getSelectedItem());
-            bgColor = colorDeterminer((String)bgColorBox.getSelectedItem());
+            sColor = colorDeterminer((String) bodyColorBox.getSelectedItem());
+            sHeadColor = colorDeterminer((String) headColorBox.getSelectedItem());
+            fColor = colorDeterminer((String) foodColorBox.getSelectedItem());
+            bgColor = colorDeterminer((String) bgColorBox.getSelectedItem());
 
             new SnakeFrame(diff, level, lColor, sColor, sHeadColor, fColor, bgColor);
             frame.setVisible(false);
         }
+        if (event.getSource().equals(hScores)) {
+            // Load scores
+            java.util.List<String> scoresList = new ArrayList<String>(List.of(SaveHandler.loadHighScores()));
 
-        private Color colorDeterminer(String color) {
-            if (color.equals("Red")) {
-                return Color.RED;
-            } else if (color.equals("Yellow")) {
-                return Color.YELLOW;
-            } else if (color.equals("Orange")) {
-                return Color.ORANGE;
-            } else if (color.equals("Green")) {
-                return Color.GREEN;
-            } else if (color.equals("Blue")) {
-                return Color.BLUE;
-            } else if (color.equals("Purple")) {
-                return Color.MAGENTA;
-            } else if (color.equals("White")) {
-                return Color.WHITE;
-            } else {
-                return Color.BLACK;
+            // Format scores
+            scoresList = SaveHandler.formatScores(scoresList);
+            String hsOutput = "";
+            for (String s : scoresList) {
+                hsOutput += s;
             }
+            JOptionPane.showMessageDialog(frame, hsOutput);
+        }
+        }
+
+    private Color colorDeterminer(String color) {
+        if (color.equals("Red")) {
+            return Color.RED;
+        } else if (color.equals("Yellow")) {
+            return Color.YELLOW;
+        } else if (color.equals("Orange")) {
+            return Color.ORANGE;
+        } else if (color.equals("Green")) {
+            return Color.GREEN;
+        } else if (color.equals("Blue")) {
+            return Color.BLUE;
+        } else if (color.equals("Purple")) {
+            return Color.MAGENTA;
+        } else if (color.equals("White")) {
+            return Color.WHITE;
+        } else {
+            return Color.BLACK;
         }
     }
 }
