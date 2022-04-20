@@ -244,6 +244,10 @@ public class SnakePanel extends JPanel implements ActionListener {
         JFrame frame = new JFrame("Game Over");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JOptionPane.showMessageDialog(frame, "Your game is over!\nYour score is " + NumberFormat.getInstance().format(score) + ".");
+        String highScore = JOptionPane.showInputDialog(frame, "Enter your name: ");
+        highScore = score + "," + highScore;
+        SaveHandler.writeHighScore(highScore);
+
         return true;
     }
 
@@ -256,6 +260,10 @@ public class SnakePanel extends JPanel implements ActionListener {
         JFrame frame = new JFrame("Congratulations!");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JOptionPane.showMessageDialog(frame, "Congratulations! You have won!\nYour score is " + NumberFormat.getInstance().format(score) + ".");
+        String highScore = JOptionPane.showInputDialog(frame, "Enter your name: ");
+        highScore = score + "," + highScore;
+        SaveHandler.writeHighScore(highScore);
+
         return true;
     }
 
