@@ -31,7 +31,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     private int gridHeight;
     /** The size, X and Y, of a single pixel on the graphical
      *  representation of the GameBoard. */
-    private static final int PIXEL_DIVISION = 32;
+    private static int pixelDivision;
     /** The time taken by each turn before the game refreshes its
      *  state. */
     private static int tickRate;
@@ -97,28 +97,33 @@ public class SnakePanel extends JPanel implements ActionListener {
 
         // Set board size
         if (level == 0) {
+            pixelDivision = 32;
             xPixels = 15;
             yPixels = 7;
         } else if (level == 1) {
-            xPixels = 15;
-            yPixels = 10;
-        } else if (level == 2) {
+            pixelDivision = 32;
             xPixels = 15;
             yPixels = 15;
+        } else if (level == 2) {
+            pixelDivision = 24;
+            xPixels = 23;
+            yPixels = 23;
         } else if (level == 3) {
-            xPixels = 17;
-            yPixels = 17;
+            pixelDivision = 24;
+            xPixels = 31;
+            yPixels = 31;
         } else {
-            xPixels = 20;
-            yPixels = 20;
+            pixelDivision = 24;
+            xPixels = 41;
+            yPixels = 31;
         }
 
         // Create backend instance
         gameBoard = new GameBoard(xPixels, yPixels);
 
         // Generate bounds
-        gridWidth = (gameBoard.getXpixels() + 1) * PIXEL_DIVISION;
-        gridHeight = (gameBoard.getYpixels() + 1) * PIXEL_DIVISION;
+        gridWidth = (gameBoard.getXpixels() + 1) * pixelDivision;
+        gridHeight = (gameBoard.getYpixels() + 1) * pixelDivision;
 
         // Setup input
         northAction = new NorthAction();
@@ -170,31 +175,31 @@ public class SnakePanel extends JPanel implements ActionListener {
 
             // Draw food on screen
             graphics.setColor(fColor);
-            graphics.fillRect(gameBoard.getFoodXCoord() * PIXEL_DIVISION,
-                    gameBoard.getFoodYCoord() * PIXEL_DIVISION, PIXEL_DIVISION,
-                    PIXEL_DIVISION);
+            graphics.fillRect(gameBoard.getFoodXCoord() * pixelDivision,
+                    gameBoard.getFoodYCoord() * pixelDivision, pixelDivision,
+                    pixelDivision);
 
             // Draw snake on screen
             SnakeNode snake = gameBoard.getHead();
             graphics.setColor(sHeadColor);
             while (snake != null) {
-                graphics.fillRect(snake.getXCoord() * PIXEL_DIVISION,
-                        snake.getYCoord() * PIXEL_DIVISION, PIXEL_DIVISION,
-                        PIXEL_DIVISION);
+                graphics.fillRect(snake.getXCoord() * pixelDivision,
+                        snake.getYCoord() * pixelDivision, pixelDivision,
+                        pixelDivision);
                 graphics.setColor(sColor);
                 snake = snake.getNext();
             }
 
             // Generate gridlines, if desired
             graphics.setColor(lColor);
-            for (int i = 0; i < gridWidth / PIXEL_DIVISION; i++) {
-                graphics.drawLine(i * PIXEL_DIVISION, 0,
-                        i * PIXEL_DIVISION, gridHeight);
+            for (int i = 0; i < gridWidth / pixelDivision; i++) {
+                graphics.drawLine(i * pixelDivision, 0,
+                        i * pixelDivision, gridHeight);
             }
 
-            for (int i = 0; i < gridHeight / PIXEL_DIVISION; i++) {
-                graphics.drawLine(0, i * PIXEL_DIVISION,
-                        gridWidth, i * PIXEL_DIVISION);
+            for (int i = 0; i < gridHeight / pixelDivision; i++) {
+                graphics.drawLine(0, i * pixelDivision,
+                        gridWidth, i * pixelDivision);
             }
         } else {
             lose();
