@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 /**
  * Controls the front-end of the Snake game, including GUI and
@@ -47,6 +48,10 @@ public class SnakePanel extends JPanel implements ActionListener {
     private Action eastAction;
     /** Receives input for moving the snake west. */
     private Action westAction;
+    /** Recieves input for resetting the game. */
+    private Action resetAction;
+    /** Recieves input for pausing the game. */
+    private Action pauseAction;
     /** Represents the north direction. */
     private static final int NORTH = 0;
     /** Represents the east direction. */
@@ -61,6 +66,8 @@ public class SnakePanel extends JPanel implements ActionListener {
     private static int yPixels = 23;
     /** Keeps track of current score. */
     private int score = 0;
+    /** Keeps track of the increment for the score per food eaten. */
+    private int scoreIncrement = 0;
     /** The color of the background. */
     private Color lColor;
     /** The color of the snake body. */
@@ -87,12 +94,16 @@ public class SnakePanel extends JPanel implements ActionListener {
         // Set speed
         if (diff == 0) {
             tickRate = 200;
+            scoreIncrement = 50;
         } else if (diff == 1) {
             tickRate = 100;
+            scoreIncrement = 1000;
         } else if (diff == 2) {
             tickRate = 50;
+            scoreIncrement = 5000;
         } else {
             tickRate = 25;
+            scoreIncrement = 20000;
         }
 
         // Set board size
@@ -130,6 +141,8 @@ public class SnakePanel extends JPanel implements ActionListener {
         southAction = new SouthAction();
         eastAction = new EastAction();
         westAction = new WestAction();
+        resetAction = new ResetAction();
+        pauseAction = new PauseAction();
 
         this.getInputMap().put(KeyStroke.getKeyStroke("UP"), "northAction");
         this.getActionMap().put("northAction", northAction);
@@ -143,8 +156,23 @@ public class SnakePanel extends JPanel implements ActionListener {
         this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "eastAction");
         this.getActionMap().put("eastAction", eastAction);
 
+        this.getInputMap().put(KeyStroke.getKeyStroke("R"), "resetAction");
+        this.getActionMap().put("resetAction", resetAction);
+
+        this.getInputMap().put(KeyStroke.getKeyStroke("P"), "pauseAction");
+        this.getActionMap().put("pauseAction", pauseAction);
+
         // Fit everything within bounds
         setPreferredSize(new Dimension(gridWidth, gridHeight));
+
+        // Explain the rules
+        JFrame frame = new JFrame("Rules");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JOptionPane.showMessageDialog(frame, "Make the snake eat the food to score points.\n" +
+                "Avoid running into walls or yourself to stay alive!\n" +
+                        "To reset the game, press the R key.\n" +
+                        "To pause the game, press the P key.\n" +
+                        "Good luck!");
 
         // Start game
         active = true;
@@ -215,7 +243,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         timer.stop();
         JFrame frame = new JFrame("Game Over");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JOptionPane.showMessageDialog(frame, "Your game is over!\nYour score is " + score + ".");
+        JOptionPane.showMessageDialog(frame, "Your game is over!\nYour score is " + NumberFormat.getInstance().format(score) + ".");
         return true;
     }
 
@@ -227,7 +255,7 @@ public class SnakePanel extends JPanel implements ActionListener {
         timer.stop();
         JFrame frame = new JFrame("Congratulations!");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JOptionPane.showMessageDialog(frame, "Congratulations! You have won!\nYour score is " + score + ".");
+        JOptionPane.showMessageDialog(frame, "Congratulations! You have won!\nYour score is " + NumberFormat.getInstance().format(score) + ".");
         return true;
     }
 
@@ -240,7 +268,7 @@ public class SnakePanel extends JPanel implements ActionListener {
     public void actionPerformed(final ActionEvent event) {
         if (active) {
             if (gameBoard.moveSnake()) {
-                score++;
+                score += scoreIncrement;
             }
             active = !gameBoard.isDead();
             if (gameBoard.hasWon()) {
@@ -264,7 +292,9 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.setHeadDirection(NORTH);
+            if (timer.isRunning()) {
+                gameBoard.setHeadDirection(NORTH);
+            }
         }
     }
 
@@ -281,7 +311,9 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.setHeadDirection(SOUTH);
+            if (timer.isRunning()) {
+                gameBoard.setHeadDirection(SOUTH);
+            }
         }
     }
 
@@ -298,7 +330,9 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.setHeadDirection(WEST);
+            if (timer.isRunning()) {
+                gameBoard.setHeadDirection(WEST);
+            }
         }
     }
 
@@ -315,7 +349,29 @@ public class SnakePanel extends JPanel implements ActionListener {
          * @param event A press of the desired key on the keyboard.
          */
         public void actionPerformed(final ActionEvent event) {
-            gameBoard.setHeadDirection(EAST);
+            if (timer.isRunning()) {
+                gameBoard.setHeadDirection(EAST);
+            }
+        }
+    }
+
+    public class ResetAction extends AbstractAction {
+        public void actionPerformed(final ActionEvent event) {
+            // Create new backend instance
+            if (timer.isRunning()) {
+                gameBoard = new GameBoard(xPixels, yPixels);
+                score = 0;
+            }
+        }
+    }
+
+    public class PauseAction extends AbstractAction {
+        public void actionPerformed(final ActionEvent event) {
+            if (timer.isRunning()) {
+                timer.stop();
+            } else {
+                timer.start();
+            }
         }
     }
 }

@@ -18,8 +18,11 @@ public class MenuPanel extends JPanel implements ActionListener {
     private final JComboBox<String> foodColorBox = new JComboBox<String>(colors);
     private final JComboBox<String> bgColorBox = new JComboBox<String>(colors);
     private final JButton start = new JButton("Start");
+    private final MenuFrame frame;
 
-    public MenuPanel() {
+    public MenuPanel(MenuFrame menuFrame) {
+
+        frame = menuFrame;
 
         StartAction startAction = new StartAction();
 
@@ -81,6 +84,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             bgColor = colorDeterminer((String)bgColorBox.getSelectedItem());
 
             new SnakeFrame(diff, level, lColor, sColor, sHeadColor, fColor, bgColor);
+            frame.setVisible(false);
         }
 
         private Color colorDeterminer(String color) {

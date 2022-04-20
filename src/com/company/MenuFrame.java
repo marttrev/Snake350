@@ -3,7 +3,7 @@ package com.company;
 import javax.swing.*;
 
 public class MenuFrame extends JFrame {
-    private MenuPanel panel = new MenuPanel();
+    private MenuPanel panel = new MenuPanel(this);
     public MenuFrame () {
 
         setTitle("Menu");
