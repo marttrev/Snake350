@@ -26,8 +26,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         this.setLayout(layout);
 
-        Box box = new Box(0);
-
         start.addActionListener(this);
         hScores.addActionListener(this);
 

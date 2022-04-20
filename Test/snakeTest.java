@@ -1,10 +1,8 @@
 import com.company.GameBoard;
 import com.company.SaveHandler;
-import com.company.SnakeFrame;
 import com.company.SnakePanel;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -170,7 +168,7 @@ public class snakeTest {
         board.setFoodXCoord(2);
         board.setFoodYCoord(0);
         Assert.assertFalse(board.hasWon());
-        board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord());
+        board.checkEaten();
         Assert.assertTrue(board.hasWon());
     }
 
@@ -179,8 +177,8 @@ public class snakeTest {
         GameBoard board = new GameBoard(2, 0);
         board.setFoodXCoord(2);
         board.setFoodYCoord(0);
-        Assert.assertTrue(board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord()));
-        Assert.assertFalse(board.checkEaten(board.getTail().getXCoord(), board.getTail().getYCoord()));
+        Assert.assertTrue(board.checkEaten());
+        Assert.assertFalse(board.checkEaten());
     }
 
     @Test
