@@ -8,8 +8,10 @@ import org.junit.Test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class snakeTest {
+public class SnakeTest {
+    public Random r = new Random();
 
     @Before
     public void resetSaves() {
@@ -32,7 +34,7 @@ public class snakeTest {
     @Test
     public void testGetFoodXCoord() {
         GameBoard board = new GameBoard(23, 23);
-        int xCoord = (int)Math.random()*23;
+        int xCoord = r.nextInt(24);
         board.setFoodXCoord(xCoord);
         Assert.assertEquals(xCoord, board.getFoodXCoord());
     }
@@ -40,7 +42,7 @@ public class snakeTest {
     @Test
     public void testGetFoodYCoord() {
         GameBoard board = new GameBoard(23, 23);
-        int yCoord = (int)Math.random()*23;
+        int yCoord = r.nextInt(24);
         board.setFoodYCoord(yCoord);
         Assert.assertEquals(yCoord, board.getFoodYCoord());
     }
