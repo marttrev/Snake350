@@ -75,4 +75,19 @@ public class SaveHandler {
         out.close();
         return true;
     }
+
+    public static List<String> formatScores(List<String> list) {
+        List<String> formattedList = new ArrayList<String>();
+        formattedList.add("High Scores:\n");
+        for (int i = 0; i < 10; i++) {
+            String temp = list.get(i);
+            String output = "";
+            output += temp.substring(0, temp.indexOf(","));
+            output += "  -  ";
+            output += temp.substring(temp.indexOf(",")+1);
+            output += "\n";
+            formattedList.add(output);
+        }
+        return formattedList;
+    }
 }
