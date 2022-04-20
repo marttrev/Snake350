@@ -21,21 +21,17 @@ public class MenuPanel extends JPanel implements ActionListener {
     private final JComboBox<String> bgColorBox = new JComboBox<String>(colors);
     private final JButton start = new JButton("Start");
     private final JButton hScores = new JButton("High Scores");
-    private final MenuFrame frame;
 
-    public MenuPanel(MenuFrame menuFrame) {
+    public MenuPanel() {
         BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         this.setLayout(layout);
 
         Box box = new Box(0);
 
-        frame = menuFrame;
-
         start.addActionListener(this);
         hScores.addActionListener(this);
 
-        //start.addActionListener(this);
-        add(new JLabel("Select desired options, then press ENTER or RETURN to begin.            "));
+        add(new JLabel("Select desired options, then click Start to begin the game.            "));
         add(Box.createRigidArea(new Dimension(0, 20)));
         add(new JLabel("Select your difficulty:"));
         add(diffBox);
@@ -67,11 +63,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         add(hScores);
     }
 
-    public boolean startGame() {
-        boolean x = startGame;
-        return x;
-    }
-
     @Override
     /* Can't get this working, using keystroke workaround for now. */
     public void actionPerformed(final ActionEvent event) {
@@ -93,7 +84,6 @@ public class MenuPanel extends JPanel implements ActionListener {
             bgColor = colorDeterminer((String) bgColorBox.getSelectedItem());
 
             new SnakeFrame(diff, level, lColor, sColor, sHeadColor, fColor, bgColor);
-            frame.setVisible(false);
         }
         if (event.getSource().equals(hScores)) {
             // Load scores
@@ -105,12 +95,14 @@ public class MenuPanel extends JPanel implements ActionListener {
             for (String s : scoresList) {
                 hsOutput += s;
             }
-            JOptionPane.showMessageDialog(frame, hsOutput);
+            JOptionPane.showMessageDialog((JFrame)SwingUtilities.getWindowAncestor(this), hsOutput);
         }
         }
 
     private Color colorDeterminer(String color) {
-        if (color.equals("Red")) {
+        if (color == null) {
+            return Color.BLACK;
+        } else if (color.equals("Red")) {
             return Color.RED;
         } else if (color.equals("Yellow")) {
             return Color.YELLOW;
