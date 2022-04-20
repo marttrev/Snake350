@@ -185,9 +185,7 @@ public final class MenuPanel extends JPanel implements ActionListener {
      * @return The actual Color value corresponding to the input.
      */
     private Color colorDeterminer(final String color) {
-        if (color == null) {
-            return Color.BLACK;
-        } else if (color.equals("Red")) {
+        if (color.equals("Red")) {
             return Color.RED;
         } else if (color.equals("Yellow")) {
             return Color.YELLOW;

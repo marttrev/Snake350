@@ -31,22 +31,6 @@ public final class SnakeNode {
     private boolean isTail;
 
     /**
-     * A constructor that creates a body segment of the snake, and
-     * places its position on the playing field.
-     * @param pXcoord The X-Coordinate of the body segment on the
-     *               playing field.
-     * @param pYcoord The Y-Coordinate of the body segment on the
-     *               playing field.
-     */
-    public SnakeNode(final int pXcoord, final int pYcoord) {
-        this.xcoord = pXcoord;
-        this.ycoord = pYcoord;
-        this.direction = 0;
-        isHead = false;
-        isTail = false;
-    }
-
-    /**
      * A constructor that creates the head or tail segment of the
      * snake, and places its position on the playing field.
      * @param pXcoord The X-Coordinate of the body segment on the
@@ -108,15 +92,6 @@ public final class SnakeNode {
     }
 
     /**
-     * Modifies the Y-Coordinate of the body segment contained within
-     * the SnakeNode.
-     * @param pYcoord The desired new Y-Coordinate.
-     */
-    public void setYCoord(final int pYcoord) {
-        this.ycoord = pYcoord;
-    }
-
-    /**
      * Accesses the next body segment in the snake, heading toward the
      * tail.
      * @return The next SnakeNode in the snake, heading toward the tail.
@@ -153,24 +128,6 @@ public final class SnakeNode {
      */
     public boolean isHead() {
         return isHead;
-    }
-
-    /**
-     * Checks if the current SnakeNode contains the tail of the snake.
-     * @return true if the current SnakeNode contains the tail, false otherwise.
-     */
-    public boolean isTail() {
-        return isTail;
-    }
-
-    /**
-     * Changes whether the body segment contained within the current SnakeNode
-     * is the tail or not.
-     * @param tail true if desired to set as tail, false if desired to set not
-     *             as tail.
-     */
-    public void setTail(final boolean tail) {
-        isTail = tail;
     }
 
     /**
