@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.*;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -82,7 +83,7 @@ public class SaveHandler {
         for (int i = 0; i < 10; i++) {
             String temp = list.get(i);
             String output = "";
-            output += temp.substring(0, temp.indexOf(","));
+            output += NumberFormat.getInstance().format(Integer.parseInt(temp.substring(0, temp.indexOf(","))));
             output += "  -  ";
             output += temp.substring(temp.indexOf(",")+1);
             output += "\n";
